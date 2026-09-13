@@ -10,9 +10,9 @@ type AppShellProps = PropsWithChildren<{ activeItem: string; role: UserRole; use
 type NavItem = { label: string; icon: typeof LayoutDashboard; href?: string };
 
 const navigation: Record<UserRole, NavItem[]> = {
-  admin: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" }, { label: "Calendar", icon: CalendarDays, href: "/calendar" }, { label: "Patients", icon: Users }, { label: "Doctors", icon: Stethoscope }, { label: "Services", icon: ClipboardList }, { label: "Billing", icon: ReceiptText }, { label: "Inventory", icon: Package }, { label: "Reports", icon: FileText }, { label: "Settings", icon: Settings }, { label: "Audit logs", icon: ShieldCheck }],
-  receptionist: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard?role=receptionist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=receptionist" }, { label: "Patients", icon: Users }, { label: "Billing", icon: ReceiptText }],
-  dentist: [{ label: "Today", icon: LayoutDashboard, href: "/dashboard?role=dentist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=dentist" }, { label: "Patients", icon: Users }, { label: "Clinical records", icon: ClipboardList }, { label: "Treatment plans", icon: FileText }],
+  admin: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" }, { label: "Calendar", icon: CalendarDays, href: "/calendar" }, { label: "Patients", icon: Users, href: "/patients/mariam-adel" }, { label: "Doctors", icon: Stethoscope }, { label: "Services", icon: ClipboardList }, { label: "Billing", icon: ReceiptText }, { label: "Inventory", icon: Package }, { label: "Reports", icon: FileText }, { label: "Settings", icon: Settings }, { label: "Audit logs", icon: ShieldCheck }],
+  receptionist: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard?role=receptionist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=receptionist" }, { label: "Patients", icon: Users, href: "/patients/mariam-adel?role=receptionist" }, { label: "Billing", icon: ReceiptText }],
+  dentist: [{ label: "Today", icon: LayoutDashboard, href: "/dashboard?role=dentist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=dentist" }, { label: "Patients", icon: Users, href: "/patients/mariam-adel?role=dentist" }, { label: "Clinical records", icon: ClipboardList }, { label: "Treatment plans", icon: FileText }],
 };
 
 export function AppShell({ activeItem, children, role, userName, onRoleChange }: AppShellProps) {
