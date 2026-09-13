@@ -2,16 +2,17 @@
 
 import { Bell, CalendarDays, ClipboardList, FileText, LayoutDashboard, Menu, Package, ReceiptText, Search, Settings, ShieldCheck, Stethoscope, Users, X } from "lucide-react";
 import { useState, type PropsWithChildren } from "react";
+import Link from "next/link";
 import type { UserRole } from "@/types";
 import { classNames } from "@/lib/utils";
 
 type AppShellProps = PropsWithChildren<{ activeItem: string; role: UserRole; userName: string; onRoleChange: (role: UserRole) => void }>;
-type NavItem = { label: string; icon: typeof LayoutDashboard };
+type NavItem = { label: string; icon: typeof LayoutDashboard; href?: string };
 
 const navigation: Record<UserRole, NavItem[]> = {
-  admin: [{ label: "Dashboard", icon: LayoutDashboard }, { label: "Calendar", icon: CalendarDays }, { label: "Patients", icon: Users }, { label: "Doctors", icon: Stethoscope }, { label: "Services", icon: ClipboardList }, { label: "Billing", icon: ReceiptText }, { label: "Inventory", icon: Package }, { label: "Reports", icon: FileText }, { label: "Settings", icon: Settings }, { label: "Audit logs", icon: ShieldCheck }],
-  receptionist: [{ label: "Dashboard", icon: LayoutDashboard }, { label: "Calendar", icon: CalendarDays }, { label: "Patients", icon: Users }, { label: "Billing", icon: ReceiptText }],
-  dentist: [{ label: "Today", icon: LayoutDashboard }, { label: "Calendar", icon: CalendarDays }, { label: "Patients", icon: Users }, { label: "Clinical records", icon: ClipboardList }, { label: "Treatment plans", icon: FileText }],
+  admin: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" }, { label: "Calendar", icon: CalendarDays, href: "/calendar" }, { label: "Patients", icon: Users }, { label: "Doctors", icon: Stethoscope }, { label: "Services", icon: ClipboardList }, { label: "Billing", icon: ReceiptText }, { label: "Inventory", icon: Package }, { label: "Reports", icon: FileText }, { label: "Settings", icon: Settings }, { label: "Audit logs", icon: ShieldCheck }],
+  receptionist: [{ label: "Dashboard", icon: LayoutDashboard, href: "/dashboard?role=receptionist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=receptionist" }, { label: "Patients", icon: Users }, { label: "Billing", icon: ReceiptText }],
+  dentist: [{ label: "Today", icon: LayoutDashboard, href: "/dashboard?role=dentist" }, { label: "Calendar", icon: CalendarDays, href: "/calendar?role=dentist" }, { label: "Patients", icon: Users }, { label: "Clinical records", icon: ClipboardList }, { label: "Treatment plans", icon: FileText }],
 };
 
 export function AppShell({ activeItem, children, role, userName, onRoleChange }: AppShellProps) {
@@ -21,7 +22,7 @@ export function AppShell({ activeItem, children, role, userName, onRoleChange }:
     <aside className="app-sidebar" aria-label="Primary navigation">
       <div className="app-sidebar__brand"><span className="app-sidebar__mark"><Stethoscope aria-hidden="true" /></span><span>DCMS</span><button className="sidebar-close" type="button" onClick={() => setIsMobileOpen(false)} aria-label="Close navigation"><X aria-hidden="true" /></button></div>
       <nav className="sidebar-nav">
-        {navigation[role].map(({ icon: Icon, label }) => <button key={label} className={classNames("sidebar-nav__item", activeItem === label && "sidebar-nav__item--active")} type="button" aria-current={activeItem === label ? "page" : undefined}><Icon aria-hidden="true" /><span>{label}</span></button>)}
+        {navigation[role].map(({ href, icon: Icon, label }) => href ? <Link key={label} href={href} onClick={() => setIsMobileOpen(false)} className={classNames("sidebar-nav__item", activeItem === label && "sidebar-nav__item--active")} aria-current={activeItem === label ? "page" : undefined}><Icon aria-hidden="true" /><span>{label}</span></Link> : <button key={label} className="sidebar-nav__item" type="button"><Icon aria-hidden="true" /><span>{label}</span></button>)}
       </nav>
       <div className="sidebar-footer"><span className="sidebar-footer__dot" aria-hidden="true" />Clinic day in progress</div>
     </aside>
