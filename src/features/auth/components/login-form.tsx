@@ -2,11 +2,13 @@
 
 import { Eye, EyeOff, KeyRound, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 import { useLoginForm } from "@/features/auth/hooks/use-login-form";
 
 export function LoginForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { values, error, isSubmitting, result, updateValue, submit } = useLoginForm();
 
@@ -21,7 +23,7 @@ export function LoginForm() {
         </p>
         <label className="field-label" htmlFor="totp-code">Authenticator code</label>
         <TextInput id="totp-code" inputMode="numeric" autoComplete="one-time-code" placeholder="000000" />
-        <Button fullWidth type="button">Verify and continue</Button>
+        <Button fullWidth type="button" onClick={() => router.push("/dashboard")}>Verify and continue</Button>
         <button className="text-button" type="button"><KeyRound aria-hidden="true" /> Use a recovery code</button>
       </section>
     );
@@ -36,7 +38,7 @@ export function LoginForm() {
         <p className="auth-card__description">
           You are signed in as a {result.role}. Dashboard routing will be connected in the next screen.
         </p>
-        <Button fullWidth type="button">Continue to dashboard</Button>
+        <Button fullWidth type="button" onClick={() => router.push(`/dashboard?role=${result.role}`)}>Continue to dashboard</Button>
       </section>
     );
   }

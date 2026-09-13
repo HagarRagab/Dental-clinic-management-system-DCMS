@@ -1,0 +1,7 @@
+import { ArrowUpRight, Clock3, UserRound } from "lucide-react";
+import type { AppointmentPreview } from "@/features/dashboard/dashboard.types";
+
+export function AppointmentList({ appointments, role }: { appointments: AppointmentPreview[]; role: "admin" | "receptionist" | "dentist" }) {
+  const actionText = role === "dentist" ? "Open visit" : "View calendar";
+  return <section className="dashboard-panel" aria-labelledby="upcoming-title"><div className="panel-header"><div><h2 id="upcoming-title">Upcoming appointments</h2><p>Today, Saturday 13 September</p></div><button type="button" className="text-button text-button--compact">{actionText} <ArrowUpRight aria-hidden="true" /></button></div><div className="appointment-list">{appointments.map((appointment) => <article className="appointment-row" key={`${appointment.time}-${appointment.patient}`}><time className="appointment-row__time">{appointment.time}</time><div className="appointment-row__person"><span className="appointment-row__avatar"><UserRound aria-hidden="true" /></span><div><strong>{appointment.patient}</strong><span>{appointment.service}{appointment.dentist ? ` · ${appointment.dentist}` : ""}</span></div></div><div className="appointment-row__status"><span className={`status-badge status-badge--${appointment.appointmentStatus.toLowerCase()}`}>{appointment.appointmentStatus}</span><span className={`visit-state visit-state--${appointment.visitState.toLowerCase().replace(" ", "-")}`}><Clock3 aria-hidden="true" />{appointment.visitState}</span></div></article>)}</div></section>;
+}
