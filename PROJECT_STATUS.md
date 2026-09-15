@@ -387,6 +387,37 @@ Limitations:
 
 Tests: none.
 
+### Audit Logs
+
+Files:
+
+- `src/app/audit-logs/page.tsx`
+- `src/features/audit-logs/audit-logs.types.ts`
+- `src/features/audit-logs/services/mock-audit-logs-service.ts`
+- `src/features/audit-logs/pages/audit-logs-screen.tsx`
+
+Implemented:
+
+- Admin-only audit log workspace.
+- 15 mock events covering: clinical record view, attachment download, admin override, invoice void, write-off, partial payment, inventory adjustment, goods receipt, CSV export, login success, login lockout, login by receptionist, clinical record finalization, settings change, and RBAC denial.
+- Summary chips (Success / Warning / Denied / Total) — clickable to filter by result.
+- Search bar filtering by action, user, entity, or module text.
+- Module dropdown filter (Clinical, Billing, Inventory, Appointments, Auth, Reports, Settings).
+- Result dropdown filter (All, Success, Warning, Denied).
+- Clear-filters button when filters are active.
+- Filterable event list with module colour-coded icons and result badges.
+- Selected-event detail panel: module, timestamp, user + role badge, entity, IP address, full narrative, result callout (RBAC blocked / Admin review), and immutability notice.
+- Non-admin roles see permission-state restricted view.
+- `/audit-logs`, `?role=receptionist`, `?role=dentist` all return 200.
+
+Limitations:
+
+- Mock data only — 15 static events, no real-time ingestion.
+- No date-range filter (requires backend).
+- No export of audit log itself.
+
+Tests: none.
+
 ## Partially Completed Or Prototype-Only Areas
 
 - Authentication and Admin MFA: UI only.
@@ -396,7 +427,7 @@ Tests: none.
 - Billing: no PDFs, compliance layer, numbering, backend, or persistence.
 - Inventory: no persistence or advanced stock rules.
 - Notifications: no sending.
-- Audit Logs, Services, Patient List, CSV Import: not implemented.
+- Services, Patient List, CSV Import: not implemented.
 
 ## Known Bugs / Problems
 
@@ -406,7 +437,7 @@ Confirmed:
 - No backend/API/database.
 - No production security.
 - `src/app/globals.css` is large and monolithic.
-- Navigation placeholders without routes: Services, Audit logs.
+- Navigation placeholder without route: Services.
 - Global search is visual only.
 - Notification events with no template fallback incorrectly show an unrelated template.
 - Inventory expiry logic is hard-coded.

@@ -70,41 +70,31 @@ Acceptance criteria:
 - Phase 2 features (Language, i18n, real auth, real tax) shown as informational panels only ✅
 - Lint and tsc pass clean ✅
 
-### TASK-003: Audit Logs Screen
+### TASK-003: Audit Logs Screen ✅ COMPLETE
 
-Priority: P1  
-Feature: Audit Logs  
-Current state: Not implemented. Admin sidebar has placeholder "Audit logs".  
-Expected behavior: Admin audit-log UI with filterable event list and detail panel.
+Priority: P1
+Feature: Audit Logs
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
+Implemented files:
 
-- Add `/audit-logs` route.
-- Add `src/features/audit-logs/*`.
-- Wire sidebar link.
-- Mock events for:
-  - Clinical record view.
-  - Clinical attachment download.
-  - Admin override.
-  - Invoice void/refund/write-off.
-  - Inventory adjustment.
-  - Export event.
-  - Login/security event.
-- Columns: timestamp, user, action, module, entity, result.
-- Include filters/search and selected detail view.
-- Restrict non-admin roles.
+- `src/app/audit-logs/page.tsx` — thin route wrapper.
+- `src/features/audit-logs/audit-logs.types.ts` — AuditEvent and filter types.
+- `src/features/audit-logs/services/mock-audit-logs-service.ts` — 15 realistic mock events.
+- `src/features/audit-logs/pages/audit-logs-screen.tsx` — full screen component.
+- `src/app/globals.css` — `.audit-*` styles added.
 
 Acceptance criteria:
 
-- Admin can inspect mock audit events.
-- Sensitive access and financial/admin actions are easy to audit.
-- Non-admin roles cannot see audit details.
-
-Testing:
-
-- `npm run lint`
-- `npx tsc --noEmit`
-- Route checks.
+- `/audit-logs` → 200 ✅
+- `/audit-logs?role=receptionist` → 200 ✅
+- `/audit-logs?role=dentist` → 200 ✅
+- Admin can inspect mock audit events with search + module + result filters ✅
+- All required event types covered: clinical view, attachment download, admin override, invoice void/write-off, payment, inventory adjustment, goods receipt, CSV export, login success/failure/lockout, RBAC denial ✅
+- Selected-event detail panel shows all 6 columns plus narrative + immutability notice ✅
+- Denied events show RBAC callout; Warning events show review callout ✅
+- Non-admin roles see permission-state restricted view ✅
+- Lint and tsc pass clean ✅
 
 ### TASK-004: Clinical Workspace / Current Visit
 
@@ -322,7 +312,7 @@ Expected behavior: Send booking/confirmation/rescheduling/cancellation/reminder 
 
 ## Next Action For Antigravity
 
-**TASK-001 Reports Screen is complete. TASK-002 Settings Screen is complete.** Continue with **TASK-003 Audit Logs Screen**.
+**TASK-001, TASK-002, TASK-003 all complete.** Continue with **TASK-004 Clinical Workspace / Current Visit**.
 
 Before coding:
 
@@ -330,5 +320,5 @@ Before coding:
 2. Read `PROJECT_STATUS.md`.
 3. Run `npm run lint`.
 4. Run `npx tsc --noEmit`.
-5. Inspect existing feature screens for patterns.
-6. Implement `/audit-logs` using the existing route + feature-folder + mock-service pattern.
+5. Inspect `src/features/patients/*` for existing clinical tab patterns.
+6. Implement `/clinical/current-visit` using the existing route + feature-folder + mock-service pattern.
