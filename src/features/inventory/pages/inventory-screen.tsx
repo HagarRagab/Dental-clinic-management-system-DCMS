@@ -31,7 +31,11 @@ import {
 } from "@/features/inventory/services/mock-inventory-service";
 import { dashboardUsers } from "@/features/dashboard/services/mock-dashboard-service";
 
-type InventoryTab = "Items" | "Suppliers" | "Goods receipts" | "Stock movements";
+type InventoryTab =
+    | "Items"
+    | "Suppliers"
+    | "Goods receipts"
+    | "Stock movements";
 type AdjustmentDirection = "Increase" | "Decrease";
 
 function statusClass(status: ReturnType<typeof inventoryStatus>) {
@@ -39,15 +43,18 @@ function statusClass(status: ReturnType<typeof inventoryStatus>) {
 }
 
 function movementClass(quantity: number) {
-    return quantity > 0 ? "inventory-quantity--positive" : "inventory-quantity--negative";
+    return quantity > 0
+        ? "inventory-quantity--positive"
+        : "inventory-quantity--negative";
 }
 
 export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
     const [role, setRole] = useState<UserRole>(initialRole);
     const [activeTab, setActiveTab] = useState<InventoryTab>("Items");
     const [items, setItems] = useState<InventoryItem[]>(mockInventoryItems);
-    const [movements, setMovements] =
-        useState<InventoryMovement[]>(mockInventoryMovements);
+    const [movements, setMovements] = useState<InventoryMovement[]>(
+        mockInventoryMovements,
+    );
     const [selectedItemId, setSelectedItemId] = useState("inv-gloves");
     const [query, setQuery] = useState("");
     const [showReceiptForm, setShowReceiptForm] = useState(false);
@@ -64,24 +71,30 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
         return items.filter((item) =>
             [item.name, item.category, item.supplier, item.batch]
                 .filter(Boolean)
-                .some((value) => value?.toLowerCase().includes(normalizedQuery)),
+                .some((value) =>
+                    value?.toLowerCase().includes(normalizedQuery),
+                ),
         );
     }, [items, query]);
     const lowStockItems = items.filter(
-        (item) => item.currentStock > 0 && item.currentStock < item.minimumStock,
+        (item) =>
+            item.currentStock > 0 && item.currentStock < item.minimumStock,
     );
     const outOfStockItems = items.filter((item) => item.currentStock === 0);
-    const expiringItems = items.filter((item) => inventoryStatus(item) === "Expiring");
+    const expiringItems = items.filter(
+        (item) => inventoryStatus(item) === "Expiring",
+    );
     const alertItems = Array.from(
         new Map(
-            [...outOfStockItems, ...lowStockItems, ...expiringItems].map((item) => [
-                item.id,
-                item,
-            ]),
+            [...outOfStockItems, ...lowStockItems, ...expiringItems].map(
+                (item) => [item.id, item],
+            ),
         ).values(),
     );
 
-    function updateSelectedItem(update: (item: InventoryItem) => InventoryItem) {
+    function updateSelectedItem(
+        update: (item: InventoryItem) => InventoryItem,
+    ) {
         setItems((current) =>
             current.map((item) =>
                 item.id === selectedItemId ? update(item) : item,
@@ -124,7 +137,9 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
         ]);
         setSelectedItemId(receiptItem.id);
         setShowReceiptForm(false);
-        setFeedback(`${quantity} ${receiptItem.unit} received and added to stock.`);
+        setFeedback(
+            `${quantity} ${receiptItem.unit} received and added to stock.`,
+        );
     }
 
     function recordAdjustment(event: FormEvent<HTMLFormElement>) {
@@ -134,13 +149,17 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
         const direction = String(form.get("direction")) as AdjustmentDirection;
         const reason = String(form.get("reason") || "").trim();
         if (!quantity || quantity <= 0 || !reason) {
-            setFeedback("Enter a quantity and reason before recording the adjustment.");
+            setFeedback(
+                "Enter a quantity and reason before recording the adjustment.",
+            );
             return;
         }
         const delta = direction === "Increase" ? quantity : -quantity;
         const newBalance = selectedItem.currentStock + delta;
         if (newBalance < 0) {
-            setFeedback("Negative stock is blocked. Reduce the adjustment quantity.");
+            setFeedback(
+                "Negative stock is blocked. Reduce the adjustment quantity.",
+            );
             return;
         }
         updateSelectedItem((item) => ({ ...item, currentStock: newBalance }));
@@ -179,12 +198,16 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                     <span className="permission-state__icon">
                         <ShieldAlert aria-hidden="true" />
                     </span>
-                    <p className="page-heading__eyebrow">Restricted workspace</p>
-                    <h1 id="inventory-access-title">Inventory access is restricted</h1>
+                    <p className="page-heading__eyebrow">
+                        Restricted workspace
+                    </p>
+                    <h1 id="inventory-access-title">
+                        Inventory access is restricted
+                    </h1>
                     <p>
-                        Stock records and adjustments are available to Admins and
-                        authorized inventory staff. Your role does not include inventory
-                        access.
+                        Stock records and adjustments are available to Admins
+                        and authorized inventory staff. Your role does not
+                        include inventory access.
                     </p>
                 </section>
             </AppShell>
@@ -203,8 +226,8 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                     <p className="page-heading__eyebrow">Branch inventory</p>
                     <h1>Stock and supplies</h1>
                     <p>
-                        Keep essential clinic supplies visible, traceable, and ready for
-                        the next appointment.
+                        Keep essential clinic supplies visible, traceable, and
+                        ready for the next appointment.
                     </p>
                 </div>
                 <div className="inventory-heading__actions">
@@ -233,7 +256,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                 </div>
             </header>
 
-            <section className="inventory-metrics" aria-label="Inventory summary">
+            <section
+                className="inventory-metrics"
+                aria-label="Inventory summary"
+            >
                 <article>
                     <span className="inventory-metric__icon inventory-metric__icon--teal">
                         <Package aria-hidden="true" />
@@ -291,16 +317,25 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
             ) : null}
 
             {showReceiptForm ? (
-                <form className="inventory-action-panel" onSubmit={recordGoodsReceipt}>
+                <form
+                    className="inventory-action-panel"
+                    onSubmit={recordGoodsReceipt}
+                >
                     <div>
                         <p className="panel-kicker">Goods receipt</p>
                         <h2>Receive stock into the branch</h2>
-                        <p>Stock increases only when goods are physically received.</p>
+                        <p>
+                            Stock increases only when goods are physically
+                            received.
+                        </p>
                     </div>
                     <div className="inventory-form-grid">
                         <label>
                             <span>Item</span>
-                            <select name="itemId" defaultValue={selectedItem.id}>
+                            <select
+                                name="itemId"
+                                defaultValue={selectedItem.id}
+                            >
                                 {items.map((item) => (
                                     <option key={item.id} value={item.id}>
                                         {item.name}
@@ -310,7 +345,13 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         </label>
                         <label>
                             <span>Quantity received</span>
-                            <input name="quantity" type="number" min="1" step="1" required />
+                            <input
+                                name="quantity"
+                                type="number"
+                                min="1"
+                                step="1"
+                                required
+                            />
                         </label>
                         <label>
                             <span>Reason</span>
@@ -330,7 +371,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         >
                             Cancel
                         </button>
-                        <button type="submit" className="button button--primary">
+                        <button
+                            type="submit"
+                            className="button button--primary"
+                        >
                             <Truck aria-hidden="true" />
                             Record goods receipt
                         </button>
@@ -339,13 +383,17 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
             ) : null}
 
             {showAdjustmentForm ? (
-                <form className="inventory-action-panel" onSubmit={recordAdjustment}>
+                <form
+                    className="inventory-action-panel"
+                    onSubmit={recordAdjustment}
+                >
                     <div>
                         <p className="panel-kicker">Audited adjustment</p>
                         <h2>Adjust {selectedItem.name}</h2>
                         <p>
-                            Current balance: {selectedItem.currentStock} {selectedItem.unit}.
-                            Negative stock is blocked by default.
+                            Current balance: {selectedItem.currentStock}{" "}
+                            {selectedItem.unit}. Negative stock is blocked by
+                            default.
                         </p>
                     </div>
                     <div className="inventory-form-grid">
@@ -358,7 +406,13 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         </label>
                         <label>
                             <span>Quantity</span>
-                            <input name="quantity" type="number" min="1" step="1" required />
+                            <input
+                                name="quantity"
+                                type="number"
+                                min="1"
+                                step="1"
+                                required
+                            />
                         </label>
                         <label>
                             <span>Reason</span>
@@ -373,7 +427,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         >
                             Cancel
                         </button>
-                        <button type="submit" className="button button--primary">
+                        <button
+                            type="submit"
+                            className="button button--primary"
+                        >
                             <History aria-hidden="true" />
                             Record adjustment
                         </button>
@@ -381,23 +438,30 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                 </form>
             ) : null}
 
-            <section className="inventory-layout" aria-label="Inventory workspace">
+            <section
+                className="inventory-layout"
+                aria-label="Inventory workspace"
+            >
                 <article className="inventory-items-panel">
                     <div className="panel-header inventory-panel-header">
                         <div>
                             <h2>Inventory items</h2>
-                            <p>Current stock by item, unit, and minimum level</p>
+                            <p>
+                                Current stock by item, unit, and minimum level
+                            </p>
                         </div>
-                        <label className="inventory-search">
+                        <div className="inventory-search">
                             <Search aria-hidden="true" />
-                            <span className="sr-only">Search inventory</span>
                             <input
                                 type="search"
                                 value={query}
-                                onChange={(event) => setQuery(event.target.value)}
+                                onChange={(event) =>
+                                    setQuery(event.target.value)
+                                }
                                 placeholder="Search items"
+                                aria-label="inventory search"
                             />
-                        </label>
+                        </div>
                     </div>
                     <div className="inventory-table-wrap">
                         <table className="inventory-table">
@@ -420,26 +484,36 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                                                     ? "inventory-row--selected"
                                                     : ""
                                             }
-                                            onClick={() => setSelectedItemId(item.id)}
+                                            onClick={() =>
+                                                setSelectedItemId(item.id)
+                                            }
                                         >
                                             <td>
                                                 <button
                                                     type="button"
                                                     className="inventory-item-link"
-                                                    onClick={() => setSelectedItemId(item.id)}
+                                                    onClick={() =>
+                                                        setSelectedItemId(
+                                                            item.id,
+                                                        )
+                                                    }
                                                 >
                                                     <strong>{item.name}</strong>
                                                     <small>
-                                                        {item.category} · {item.supplier}
+                                                        {item.category} ·{" "}
+                                                        {item.supplier}
                                                     </small>
                                                 </button>
                                             </td>
                                             <td>
                                                 <strong>
-                                                    {item.currentStock} {item.unit}
+                                                    {item.currentStock}{" "}
+                                                    {item.unit}
                                                 </strong>
                                             </td>
-                                            <td>{item.minimumStock} {item.unit}</td>
+                                            <td>
+                                                {item.minimumStock} {item.unit}
+                                            </td>
                                             <td>
                                                 <span
                                                     className={`inventory-status inventory-status--${statusClass(status)}`}
@@ -456,7 +530,9 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                             <div className="inventory-empty">
                                 <Search aria-hidden="true" />
                                 <strong>No inventory items found</strong>
-                                <span>Try a different item, category, or supplier.</span>
+                                <span>
+                                    Try a different item, category, or supplier.
+                                </span>
                             </div>
                         ) : null}
                     </div>
@@ -467,7 +543,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         <div>
                             <p className="panel-kicker">Selected item</p>
                             <h2>{selectedItem.name}</h2>
-                            <p>{selectedItem.category} · {selectedItem.supplier}</p>
+                            <p>
+                                {selectedItem.category} ·{" "}
+                                {selectedItem.supplier}
+                            </p>
                         </div>
                         <span
                             className={`inventory-status inventory-status--${statusClass(inventoryStatus(selectedItem))}`}
@@ -477,8 +556,13 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                     </div>
                     <div className="inventory-stock-highlight">
                         <span>Current stock</span>
-                        <strong>{selectedItem.currentStock} {selectedItem.unit}</strong>
-                        <small>Minimum level: {selectedItem.minimumStock} {selectedItem.unit}</small>
+                        <strong>
+                            {selectedItem.currentStock} {selectedItem.unit}
+                        </strong>
+                        <small>
+                            Minimum level: {selectedItem.minimumStock}{" "}
+                            {selectedItem.unit}
+                        </small>
                     </div>
                     <dl className="inventory-detail-list">
                         <div>
@@ -487,11 +571,16 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                         </div>
                         <div>
                             <dt>Expiry date</dt>
-                            <dd>{selectedItem.expiryDate ?? "Not applicable"}</dd>
+                            <dd>
+                                {selectedItem.expiryDate ?? "Not applicable"}
+                            </dd>
                         </div>
                         <div>
                             <dt>Purchase cost</dt>
-                            <dd>{formatEgp(selectedItem.purchaseCost)} / {selectedItem.unit}</dd>
+                            <dd>
+                                {formatEgp(selectedItem.purchaseCost)} /{" "}
+                                {selectedItem.unit}
+                            </dd>
                         </div>
                     </dl>
                     <div className="inventory-detail-actions">
@@ -521,33 +610,38 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                     </div>
                     <div className="inventory-alert-list">
                         {alertItems.map((item) => (
-                                <button
-                                    type="button"
-                                    key={`${item.id}-${inventoryStatus(item)}`}
-                                    onClick={() => {
-                                        setSelectedItemId(item.id);
-                                        setActiveTab("Items");
-                                    }}
-                                >
-                                    <span className="inventory-alert-list__icon">
-                                        {inventoryStatus(item) === "Expiring" ? (
-                                            <FileWarning aria-hidden="true" />
-                                        ) : (
-                                            <AlertTriangle aria-hidden="true" />
-                                        )}
-                                    </span>
-                                    <span>
-                                        <strong>{item.name}</strong>
-                                        <small>
-                                            {inventoryStatus(item)} · {item.currentStock}{" "}
-                                            {item.unit} available
-                                        </small>
-                                    </span>
-                                    <ArrowUpRight aria-hidden="true" />
-                                </button>
-                            ))}
-                        {!outOfStockItems.length && !lowStockItems.length && !expiringItems.length ? (
-                            <p className="inventory-empty-copy">All tracked items are within safe levels.</p>
+                            <button
+                                type="button"
+                                key={`${item.id}-${inventoryStatus(item)}`}
+                                onClick={() => {
+                                    setSelectedItemId(item.id);
+                                    setActiveTab("Items");
+                                }}
+                            >
+                                <span className="inventory-alert-list__icon">
+                                    {inventoryStatus(item) === "Expiring" ? (
+                                        <FileWarning aria-hidden="true" />
+                                    ) : (
+                                        <AlertTriangle aria-hidden="true" />
+                                    )}
+                                </span>
+                                <span>
+                                    <strong>{item.name}</strong>
+                                    <small>
+                                        {inventoryStatus(item)} ·{" "}
+                                        {item.currentStock} {item.unit}{" "}
+                                        available
+                                    </small>
+                                </span>
+                                <ArrowUpRight aria-hidden="true" />
+                            </button>
+                        ))}
+                        {!outOfStockItems.length &&
+                        !lowStockItems.length &&
+                        !expiringItems.length ? (
+                            <p className="inventory-empty-copy">
+                                All tracked items are within safe levels.
+                            </p>
                         ) : null}
                     </div>
                 </article>
@@ -590,21 +684,32 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
             </section>
 
             <section className="inventory-tabs-panel">
-                <div className="inventory-tabs" role="tablist" aria-label="Inventory records">
-                    {(["Items", "Suppliers", "Goods receipts", "Stock movements"] as InventoryTab[]).map(
-                        (tab) => (
-                            <button
-                                key={tab}
-                                type="button"
-                                role="tab"
-                                aria-selected={activeTab === tab}
-                                className={activeTab === tab ? "inventory-tab--active" : ""}
-                                onClick={() => setActiveTab(tab)}
-                            >
-                                {tab}
-                            </button>
-                        ),
-                    )}
+                <div
+                    className="inventory-tabs"
+                    role="tablist"
+                    aria-label="Inventory records"
+                >
+                    {(
+                        [
+                            "Items",
+                            "Suppliers",
+                            "Goods receipts",
+                            "Stock movements",
+                        ] as InventoryTab[]
+                    ).map((tab) => (
+                        <button
+                            key={tab}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeTab === tab}
+                            className={
+                                activeTab === tab ? "inventory-tab--active" : ""
+                            }
+                            onClick={() => setActiveTab(tab)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
                 </div>
                 {activeTab === "Suppliers" ? (
                     <div className="inventory-record-grid">
@@ -616,7 +721,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                                 <div>
                                     <strong>{supplier.name}</strong>
                                     <small>{supplier.contact}</small>
-                                    <small>{supplier.items} tracked items · Last receipt {supplier.lastReceipt}</small>
+                                    <small>
+                                        {supplier.items} tracked items · Last
+                                        receipt {supplier.lastReceipt}
+                                    </small>
                                 </div>
                             </article>
                         ))}
@@ -625,7 +733,10 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                 {activeTab === "Goods receipts" ? (
                     <div className="inventory-record-table">
                         {movements
-                            .filter((movement) => movement.type === "Goods received")
+                            .filter(
+                                (movement) =>
+                                    movement.type === "Goods received",
+                            )
                             .map((movement) => (
                                 <article key={movement.id}>
                                     <span>{movement.date}</span>
@@ -633,7 +744,9 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                                     <span className="inventory-quantity--positive">
                                         +{movement.quantity} {movement.unit}
                                     </span>
-                                    <small>{movement.reason} · {movement.user}</small>
+                                    <small>
+                                        {movement.reason} · {movement.user}
+                                    </small>
                                 </article>
                             ))}
                     </div>
@@ -644,19 +757,23 @@ export function InventoryScreen({ initialRole }: { initialRole: UserRole }) {
                             <article key={movement.id}>
                                 <span>{movement.date}</span>
                                 <strong>{movement.itemName}</strong>
-                                <span className={movementClass(movement.quantity)}>
+                                <span
+                                    className={movementClass(movement.quantity)}
+                                >
                                     {movement.quantity > 0 ? "+" : ""}
                                     {movement.quantity} {movement.unit}
                                 </span>
-                                <small>{movement.reason} · {movement.user}</small>
+                                <small>
+                                    {movement.reason} · {movement.user}
+                                </small>
                             </article>
                         ))}
                     </div>
                 ) : null}
                 {activeTab === "Items" ? (
                     <p className="inventory-tab-note">
-                        Select an item above to review its batch, expiry, purchase cost, and
-                        current stock.
+                        Select an item above to review its batch, expiry,
+                        purchase cost, and current stock.
                     </p>
                 ) : null}
             </section>
