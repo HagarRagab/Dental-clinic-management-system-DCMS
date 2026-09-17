@@ -127,24 +127,30 @@ Acceptance criteria:
 
 ## P2 Tasks
 
-### TASK-005: Services / Appointment Types
+### TASK-005: Services / Appointment Types ✅ COMPLETE
 
-Priority: P2  
-Current state: Sidebar placeholder only; appointment types are hard-coded in mock arrays.  
-Expected behavior: Admin UI for configurable appointment types and services.
+Priority: P2
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
-
-- Add `/services` route and `src/features/services/*`.
-- Wire sidebar link.
-- Display appointment type name, default duration, default price, active/inactive status.
-- Display service/procedure entries for later billing/treatment use.
-- Add mock create/edit/activate/deactivate controls.
+Implemented files:
+- `src/app/services/page.tsx` — thin route wrapper.
+- `src/features/services/services.types.ts` — domain types for procedures, categories, and appointment templates.
+- `src/features/services/services/mock-services-service.ts` — CDT codes, procedure catalog, and appointment types.
+- `src/features/services/pages/services-screen.tsx` — full tabbed management screen with search, category/status filters, active toggles, and add/edit modals.
+- `src/styles/services.css` — modular stylesheet imported in `src/app/globals.css`.
+- `src/components/layout/app-shell.tsx` — wired admin sidebar link to `/services`.
 
 Acceptance criteria:
-
-- Admin can view and mock-edit services/appointment types.
-- Non-admin roles restricted.
+- `/services` → 200 ✅
+- `/services?role=admin` → 200 ✅
+- `/services?role=receptionist` → 200 ✅ (permission-state restricted)
+- `/services?role=dentist` → 200 ✅ (permission-state restricted)
+- Admin can view, search, filter by category, and mock-edit services and appointment types ✅
+- Add procedure modal with CDT code, name, category, default fee, and duration ✅
+- Add appointment template modal with duration, fee, and calendar color badge ✅
+- Active/inactive toggle with instant UI feedback ✅
+- Non-admin roles properly restricted ✅
+- Lint and tsc pass clean ✅
 
 ### TASK-006: Patient List
 
@@ -329,7 +335,7 @@ Expected behavior: Send booking/confirmation/rescheduling/cancellation/reminder 
 
 ## Next Action For Antigravity
 
-**TASK-001, TASK-002, TASK-003, and TASK-004 all complete (all P1 tasks finished).** Continue with **TASK-005 Services / Appointment Types (P2)**.
+**TASK-001, TASK-002, TASK-003, TASK-004, TASK-005, and TASK-010 all complete.** Continue with **TASK-006 Patient List (P2)**.
 
 Before coding:
 
@@ -337,5 +343,5 @@ Before coding:
 2. Read `PROJECT_STATUS.md`.
 3. Run `npm run lint`.
 4. Run `npx tsc --noEmit`.
-5. Inspect existing services and appointment types data across the app.
-6. Implement `/services` using the existing route + feature-folder + mock-service pattern.
+5. Inspect `src/features/patients/*` for patient structure and table patterns.
+6. Implement `/patients` using the existing route + feature-folder + mock-service pattern.

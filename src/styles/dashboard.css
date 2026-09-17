@@ -38,6 +38,8 @@
     background: #e8f5f2;
     border-radius: 6px;
     color: var(--primary);
+    margin-top: 4px;
+    font-size: 12px;
 }
 .metric-card--warning .metric-card__icon {
     background: #fff4e5;
@@ -65,12 +67,6 @@
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
-}
-.metric-card span {
-    display: block;
-    margin-top: 4px;
-    color: var(--muted);
-    font-size: 12px;
 }
 .dashboard-grid {
     display: grid;
@@ -309,7 +305,7 @@
 }
 
 @media (max-width: 820px) {
-.metric-grid {
+    .metric-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .dashboard-grid {
@@ -317,9 +313,8 @@
     }
 }
 
-
 @media (max-width: 520px) {
-.metric-grid {
+    .metric-grid {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
@@ -368,4 +363,3 @@
         min-height: 72px;
     }
 }
-

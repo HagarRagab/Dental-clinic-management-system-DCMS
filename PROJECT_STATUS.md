@@ -460,6 +460,47 @@ Limitations:
 
 Tests: none.
 
+### Services & Appointment Types
+
+Files:
+
+- `src/app/services/page.tsx`
+- `src/features/services/services.types.ts`
+- `src/features/services/services/mock-services-service.ts`
+- `src/features/services/pages/services-screen.tsx`
+- `src/styles/services.css`
+- `src/components/layout/app-shell.tsx`
+
+Implemented:
+
+- Admin-only clinic procedure and appointment template configuration workspace.
+- Metrics summary cards: total procedures, active count, appointment templates, average fee across catalog.
+- Tab 1: Clinical Procedures & Pricing:
+  - Table with CDT code, procedure name, category, duration, default fee, tooth requirement, and active status.
+  - Category filter (Diagnostic & Preventive, Restorative, Endodontics, Periodontics, Prosthodontics, Oral Surgery, Orthodontics, Cosmetic).
+  - Status filter (All, Active, Inactive).
+  - Free-text search by procedure code, title, or description.
+  - Instant activate/deactivate toggle with feedback.
+  - "Add procedure" modal with CDT code, name, category, fee, duration, description, and odontogram tooth requirement toggle.
+  - "Edit procedure" modal for price and clinical parameter adjustments.
+  - Delete procedure control.
+- Tab 2: Appointment Templates:
+  - Table with calendar badge color, template name, category, default duration, standard fee, operatory chair requirement, and active status.
+  - Free-text search and status filter.
+  - Instant activate/deactivate toggle with feedback.
+  - "Add appointment template" modal with duration, standard fee, description, category, and calendar color picker.
+  - "Edit appointment template" modal.
+- Role-based security: Non-admin roles (receptionist, dentist) receive a standard `permission-state` restricted access view.
+- Sidebar link wired: AppShell admin navigation item has `href: "/services"` (resolving previous placeholder bug).
+- Route HTTP verification: `/services`, `?role=admin`, `?role=receptionist`, `?role=dentist` all return 200 OK.
+
+Limitations:
+
+- Mock data only — local state resets on refresh.
+- Persistent database storage requires backend phase.
+
+Tests: none.
+
 ## Partially Completed Or Prototype-Only Areas
 
 - Authentication and Admin MFA: UI only.
@@ -469,7 +510,7 @@ Tests: none.
 - Billing: no PDFs, compliance layer, numbering, backend, or persistence.
 - Inventory: no persistence or advanced stock rules.
 - Notifications: no sending.
-- Services, Patient List, CSV Import: not implemented.
+- Patient List, CSV Import: not implemented.
 
 ## Known Bugs / Problems
 
@@ -478,7 +519,6 @@ Confirmed:
 - No automated tests.
 - No backend/API/database.
 - No production security.
-- Navigation placeholder without route: Services.
 - Global search is visual only.
 - Notification events with no template fallback incorrectly show an unrelated template.
 - Inventory expiry logic is hard-coded.
@@ -493,7 +533,6 @@ Risks:
 
 ## Not Started
 
-- Services/appointment types screen.
 - Patient list and generic patient routing.
 - Dedicated odontogram editor.
 - CSV patient import.
@@ -528,6 +567,11 @@ Risks:
 | Inventory | `src/features/inventory/*` | Stock/supplies | High |
 | Doctors | `src/features/doctors/*` | Schedule settings | High |
 | Notifications | `src/features/notifications/*` | Email templates/settings | High |
+| Reports | `src/features/reports/*` | Operational & financial reports | High |
+| Settings | `src/features/settings/*` | Clinic configuration & rules | High |
+| Audit logs | `src/features/audit-logs/*` | Audit trail & security logs | High |
+| Clinical | `src/features/clinical/*` | Dentist current visit workspace | Critical |
+| Services | `src/features/services/*` | Procedures & appointment types | High |
 
 ## APIs And Data Contracts
 
@@ -542,6 +586,11 @@ Current contracts are TypeScript mock/UI contracts:
 - `src/features/inventory/inventory.types.ts`
 - `src/features/doctors/doctor-schedule.types.ts`
 - `src/features/notifications/notification.types.ts`
+- `src/features/reports/reports.types.ts`
+- `src/features/settings/settings.types.ts`
+- `src/features/audit-logs/audit-logs.types.ts`
+- `src/features/clinical/clinical.types.ts`
+- `src/features/services/services.types.ts`
 
 Do not treat mock types as final database schema without a separate backend/database design phase.
 
