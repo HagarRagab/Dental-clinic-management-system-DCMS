@@ -418,12 +418,54 @@ Limitations:
 
 Tests: none.
 
+### Clinical Workspace / Current Visit
+
+Files:
+
+- `src/app/clinical/current-visit/page.tsx`
+- `src/features/clinical/clinical.types.ts`
+- `src/features/clinical/services/mock-clinical-service.ts`
+- `src/features/clinical/pages/clinical-workspace-screen.tsx`
+- `src/components/layout/app-shell.tsx`
+- `src/features/dashboard/components/dashboard-aside.tsx`
+- `src/features/patients/pages/patient-profile-screen.tsx`
+
+Implemented:
+
+- Dedicated dentist current visit workspace for active visits.
+- Patient identity & summary banner with prominent medical alerts / Penicillin allergy warnings.
+- Appointment metadata: chair, time, visit state, arrival duration.
+- Clinical Chief Complaint and SOAP examination notes (Subjective, Objective, Assessment, Plan).
+- Diagnosis selection with ICD codes and affected tooth tag.
+- Performed treatment documentation with procedure catalog, tooth targeting, administered materials/anesthesia, notes, and procedure removal.
+- Treatment plan reference card showing plan ID, progress bar, and next planned clinical step.
+- Interactive 32-adult-tooth Odontogram chart with active tooth highlight and tooth click targeting.
+- Radiographs & attachments viewer cards with mock diagnostic viewer modal.
+- Post-op instructions, prescriptions, and next visit recommendations.
+- Finalization workflow: confirmation modal with legal/audit warning; permanently locks the clinical record into an immutable document.
+- Audited Addendum / Amendment workflow: append timestamped, clinician-attributed addenda with audit justification to finalized records without altering original clinical documentation.
+- Role-based security:
+  - Receptionists are blocked with a `permission-state` screen in compliance with medical privacy rules.
+  - Admins view with a supervisory audit notification banner.
+- Seamless navigation links connected:
+  - AppShell dentist navigation: "Clinical records" -> `/clinical/current-visit?role=dentist`
+  - Dentist dashboard: "Start visit" -> `/clinical/current-visit?role=dentist`
+  - Patient profile: "Open current visit" -> `/clinical/current-visit?role=dentist`
+- All route variations (`/clinical/current-visit`, `?role=dentist`, `?role=admin`, `?role=receptionist`) return 200.
+
+Limitations:
+
+- Mock data only — local state resets on refresh.
+- Real attachment storage and image processing require backend.
+
+Tests: none.
+
 ## Partially Completed Or Prototype-Only Areas
 
 - Authentication and Admin MFA: UI only.
 - RBAC: UI simulation only, no server enforcement.
-- Clinical workflow: profile tabs exist, dedicated current-visit workspace does not.
-- Odontogram: preview only, no editor.
+- Clinical workflow: dedicated current visit workspace and patient profile tabs exist; multi-visit timeline editor is Phase 2.
+- Odontogram: visual charting and tooth selector exist, advanced restorative graphic editor is Phase 2.
 - Billing: no PDFs, compliance layer, numbering, backend, or persistence.
 - Inventory: no persistence or advanced stock rules.
 - Notifications: no sending.
@@ -452,10 +494,8 @@ Risks:
 
 ## Not Started
 
-- Audit Logs screen.
 - Services/appointment types screen.
 - Patient list and generic patient routing.
-- Dedicated clinical current visit workspace.
 - Dedicated odontogram editor.
 - CSV patient import.
 - Invoice/receipt PDF generation.

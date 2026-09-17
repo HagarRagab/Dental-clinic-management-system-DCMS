@@ -96,35 +96,34 @@ Acceptance criteria:
 - Non-admin roles see permission-state restricted view ✅
 - Lint and tsc pass clean ✅
 
-### TASK-004: Clinical Workspace / Current Visit
+### TASK-004: Clinical Workspace / Current Visit ✅ COMPLETE
 
-Priority: P1  
-Feature: Clinical Workspace  
-Current state: Patient profile has clinical tabs, but there is no dedicated dentist visit workspace.  
-Expected behavior: Dentist-focused current visit workflow.
+Priority: P1
+Feature: Clinical Workspace
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
+Implemented files:
 
-- Add route after confirming path, e.g. `/clinical/current-visit`.
-- Add `src/features/clinical/*`.
-- Include patient summary, appointment information, medical flags, notes, diagnosis, performed treatment, treatment plan reference, attachments, and basic odontogram access.
-- Add save draft/finalize actions.
-- Make finalized clinical records immutable in UI.
-- Provide amendment affordance.
-- Block receptionist detailed clinical access.
+- `src/app/clinical/current-visit/page.tsx` — thin route wrapper for current visit workspace.
+- `src/features/clinical/clinical.types.ts` — domain types for visit records, SOAP notes, diagnoses, procedures, and amendments.
+- `src/features/clinical/services/mock-clinical-service.ts` — mock visit data and clinical catalogs.
+- `src/features/clinical/pages/clinical-workspace-screen.tsx` — interactive clinical workspace.
+- `src/components/layout/app-shell.tsx` — connected dentist "Clinical records" navigation.
+- `src/features/dashboard/components/dashboard-aside.tsx` — connected dentist "Start visit" action.
+- `src/features/patients/pages/patient-profile-screen.tsx` — connected dentist "Open current visit" action.
+- `src/app/globals.css` — `.clinical-*` styles added with responsive breakpoints.
 
 Acceptance criteria:
 
-- Dentist can open a current visit mock workspace.
-- Admin may see with audited-override framing if included.
-- Receptionist cannot see detailed clinical notes/diagnosis/attachments.
-- Finalization/amendment behavior is clear.
-
-Testing:
-
-- `npm run lint`
-- `npx tsc --noEmit`
-- Browser preview for all roles.
+- `/clinical/current-visit` → 200 ✅
+- `/clinical/current-visit?role=dentist` → 200 ✅
+- `/clinical/current-visit?role=admin` → 200 ✅
+- `/clinical/current-visit?role=receptionist` → 200 ✅
+- Dentist can open and document a current visit with SOAP notes, diagnosis, performed procedures, and odontogram interaction ✅
+- Admin sees supervisory audit banner ✅
+- Receptionist is blocked with permission-state restricted screen ✅
+- Finalization permanently locks the clinical record into an immutable document with Add Addendum / amendment support ✅
+- Lint and tsc pass clean ✅
 
 ## P2 Tasks
 
@@ -312,7 +311,7 @@ Expected behavior: Send booking/confirmation/rescheduling/cancellation/reminder 
 
 ## Next Action For Antigravity
 
-**TASK-001, TASK-002, TASK-003 all complete.** Continue with **TASK-004 Clinical Workspace / Current Visit**.
+**TASK-001, TASK-002, TASK-003, and TASK-004 all complete (all P1 tasks finished).** Continue with **TASK-005 Services / Appointment Types (P2)**.
 
 Before coding:
 
@@ -320,5 +319,5 @@ Before coding:
 2. Read `PROJECT_STATUS.md`.
 3. Run `npm run lint`.
 4. Run `npx tsc --noEmit`.
-5. Inspect `src/features/patients/*` for existing clinical tab patterns.
-6. Implement `/clinical/current-visit` using the existing route + feature-folder + mock-service pattern.
+5. Inspect existing services and appointment types data across the app.
+6. Implement `/services` using the existing route + feature-folder + mock-service pattern.

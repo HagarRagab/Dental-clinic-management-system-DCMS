@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
     AlertTriangle,
     ArrowUpRight,
@@ -22,12 +23,13 @@ export function DashboardAside({ role }: { role: UserRole }) {
                     <div className="medical-flag">
                         <AlertTriangle aria-hidden="true" /> Penicillin allergy
                     </div>
-                    <button
+                    <Link
                         className="button button--primary button--full"
-                        type="button"
+                        href="/clinical/current-visit?role=dentist"
+                        style={{ textAlign: "center", textDecoration: "none", display: "flex", justifyContent: "center" }}
                     >
                         Start visit
-                    </button>
+                    </Link>
                 </section>
                 <section
                     className="dashboard-panel"
