@@ -478,7 +478,6 @@ Confirmed:
 - No automated tests.
 - No backend/API/database.
 - No production security.
-- `src/app/globals.css` is large and monolithic.
 - Navigation placeholder without route: Services.
 - Global search is visual only.
 - Notification events with no template fallback incorrectly show an unrelated template.
@@ -516,7 +515,8 @@ Risks:
 | TS config | `tsconfig.json` | Strict TS and path aliases | Critical |
 | ESLint | `eslint.config.mjs` | Lint config | High |
 | Root layout | `src/app/layout.tsx` | Metadata/global CSS | High |
-| Global CSS | `src/app/globals.css` | All screen styling | Critical |
+| Global CSS Manifest | `src/app/globals.css` | Imports 15 domain stylesheets | Critical |
+| Modular Stylesheets | `src/styles/*` | Domain-specific CSS modules | Critical |
 | App shell | `src/components/layout/app-shell.tsx` | Sidebar/header/roles | Critical |
 | Shared UI | `src/components/ui/*` | Button/TextInput | Medium |
 | Global types | `src/types/index.ts` | UserRole | Critical |

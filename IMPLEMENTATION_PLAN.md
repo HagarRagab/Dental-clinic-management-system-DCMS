@@ -225,16 +225,34 @@ Acceptance criteria:
 
 ## P3 Tasks
 
-### TASK-010: CSS Maintainability
+### TASK-010: CSS Maintainability ✅ COMPLETE
 
-Priority: P3  
-Current state: `src/app/globals.css` is large and monolithic.  
-Expected behavior: Keep it stable for now; split only after approval.
+Priority: P3
+Current state: **Implemented.** `src/app/globals.css` split into 15 domain modules under `src/styles/` with clean `@import` manifest.
 
-Remaining:
+Implemented files:
+- `src/styles/variables.css` — CSS custom properties (:root design tokens)
+- `src/styles/base.css` — resets, typography, button utilities, shared form controls, and permission-state
+- `src/styles/layout.css` — app shell, navigation, header, search bar, role switcher, mobile nav
+- `src/styles/auth.css` — login, brand banner, MFA card, demo credentials
+- `src/styles/dashboard.css` — metrics, queue list, attention panel, quick actions, current patient
+- `src/styles/appointments.css` — calendar boards, day/week view, booking wizard, slot picker
+- `src/styles/patients.css` — profile header, clinical timeline, tooth chart preview, ledger
+- `src/styles/billing.css` — invoices, payment collection, write-offs, totals
+- `src/styles/inventory.css` — stock tables, movement history, goods receipts, adjustments
+- `src/styles/doctors.css` — doctor schedule, working hours, availability slots
+- `src/styles/notifications.css` — email settings, template editor, RTL text fields
+- `src/styles/reports.css` — operational & financial reports, breakdown tables
+- `src/styles/settings.css` — 11-section settings workspace, forms, audit info
+- `src/styles/audit-logs.css` — event summary chips, filter toolbar, event list, detail inspector
+- `src/styles/clinical.css` — SOAP examination notes, diagnosis selector, procedure list, odontogram, attachments
+- `src/app/globals.css` — central manifest importing all 15 modular stylesheets in strict cascade order
 
-- Continue module-prefixed CSS additions.
-- Avoid global refactor unless visual regression testing is possible.
+Verification:
+- `npm run lint`: passed (0 errors)
+- `npx tsc --noEmit`: passed (0 errors)
+- `npm run build`: passed (all 15 routes compiled & static pages generated)
+- Route HTTP checks: all 12 major routes return 200 OK
 
 ### TASK-011: Full Arabic/English Localization
 
