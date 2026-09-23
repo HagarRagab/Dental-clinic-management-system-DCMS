@@ -10,6 +10,7 @@
 @import "../styles/dashboard.css";
 @import "../styles/appointments.css";
 @import "../styles/patients.css";
+@import "../styles/patients-list.css";
 @import "../styles/billing.css";
 @import "../styles/inventory.css";
 @import "../styles/doctors.css";
