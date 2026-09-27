@@ -1,4 +1,5 @@
 export type PatientProfile = {
+  id?: string;
   name: string;
   initials: string;
   mobile: string;
@@ -9,7 +10,7 @@ export type PatientProfile = {
   emergencyContact: string;
   allergies: string[];
   currentMedications: string;
-  nextAppointment: { date: string; time: string; type: string; dentist: string };
+  nextAppointment: { date: string; time: string; type: string; dentist: string } | null;
   balance: string;
 };
 
@@ -30,7 +31,7 @@ export type PatientListRow = {
   balance: string;
   balanceNumeric: number;
   alerts: string[];
-  /** Only "mariam-adel" has a real profile page; others show a placeholder. */
+  /** Profile route slug or patient ID (e.g. "mariam-adel" or "pt-002") */
   profileSlug: string | null;
 };
 

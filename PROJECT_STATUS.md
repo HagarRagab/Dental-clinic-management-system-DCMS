@@ -544,11 +544,11 @@ Risks:
 - Invoice & Receipt Print / PDF modal affordance (`/billing`)
 - Dedicated Odontogram Editor & FDI surface mapping (`/patients/mariam-adel`)
 - CSV Patient Import & bulk demographic validator (`/patients`)
+- Generic patient profile routing & dynamic demographics (`/patients/[id]`)
 - CSS Modularization (`src/styles/*.css`)
 
 ## Not Started
 
-- Generic patient profile routing (`/patients/[id]`).
 - Backend/API/database/auth (explicitly requires approval).
 - Secure attachment storage.
 - Real email/SMS/WhatsApp integration.

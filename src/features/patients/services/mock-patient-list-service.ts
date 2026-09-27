@@ -33,7 +33,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-002",
   },
   {
     id: "pt-003",
@@ -50,7 +50,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 800",
     balanceNumeric: 800,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-003",
   },
   {
     id: "pt-004",
@@ -67,7 +67,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-004",
   },
   {
     id: "pt-005",
@@ -84,7 +84,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 3,200",
     balanceNumeric: 3200,
     alerts: ["Hypertension — check BP before treatment"],
-    profileSlug: null,
+    profileSlug: "pt-005",
   },
   {
     id: "pt-006",
@@ -101,7 +101,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-006",
   },
   {
     id: "pt-007",
@@ -118,7 +118,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: ["Diabetes — coordinate with GP"],
-    profileSlug: null,
+    profileSlug: "pt-007",
   },
   {
     id: "pt-008",
@@ -135,7 +135,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-008",
   },
   {
     id: "pt-009",
@@ -152,7 +152,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 500",
     balanceNumeric: 500,
     alerts: [],
-    profileSlug: null,
+    profileSlug: "pt-009",
   },
   {
     id: "pt-010",
@@ -169,7 +169,7 @@ export const mockPatientList: PatientListRow[] = [
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: ["Minor — guardian consent required"],
-    profileSlug: null,
+    profileSlug: "pt-010",
   },
 ];
 

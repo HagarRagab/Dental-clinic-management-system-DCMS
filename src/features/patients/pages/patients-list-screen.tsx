@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/layout/app-shell";
 import type { UserRole } from "@/types";
 import type { PatientListRow, PatientStatus } from "@/features/patients/patient.types";
@@ -130,6 +131,7 @@ function NewPatientModal({ onClose, onAdd }: { onClose: () => void; onAdd: (name
 
 // ─── Main screen ─────────────────────────────────────────────
 export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
+  const router = useRouter();
   const [role, setRole] = useState<UserRole>(initialRole);
   const [patientList, setPatientList] = useState<PatientListRow[]>(mockPatientList);
   const [search, setSearch] = useState("");
@@ -157,13 +159,17 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
   }
 
   function handleRowClick(patient: PatientListRow) {
-    if (!patient.profileSlug) {
+    const slug = patient.profileSlug || patient.id;
+    if (slug) {
+      router.push(`/patients/${slug}?role=${role}`);
+    } else {
       setUnavailableNotice(`Full profile for ${patient.name} is not yet available in this prototype.`);
       setTimeout(() => setUnavailableNotice(null), 4000);
     }
   }
 
   function handlePatientAdded(name: string) {
+    const id = `pt-${String(patientList.length + 1).padStart(3, "0")}`;
     const initials = name
       .split(" ")
       .map((p) => p[0])
@@ -172,7 +178,7 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
       .toUpperCase() || "PT";
 
     const newRow: PatientListRow = {
-      id: `P-${1040 + patientList.length}`,
+      id,
       name,
       initials,
       mobile: "010 0000 0000",
@@ -186,7 +192,7 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
       balance: "EGP 0",
       balanceNumeric: 0,
       alerts: [],
-      profileSlug: null,
+      profileSlug: id,
     };
     setPatientList((prev) => [newRow, ...prev]);
     setFeedback(`Patient "${name}" registered successfully. Added to patient list.`);
@@ -349,8 +355,8 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
                 patients.map((patient) => (
                   <tr
                     key={patient.id}
-                    className={patient.profileSlug ? "pl-row--clickable" : undefined}
-                    onClick={!patient.profileSlug ? () => handleRowClick(patient) : undefined}
+                    className="pl-row--clickable"
+                    onClick={() => handleRowClick(patient)}
                   >
                     {/* Patient name + avatar */}
                     <td>
@@ -409,24 +415,22 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
                     </td>
                     {/* Row actions */}
                     <td>
-                      <div className="pl-row-actions">
-                        {patient.profileSlug ? (
-                          <Link
-                            href={`/patients/${patient.profileSlug}?role=${role}`}
-                            className="pl-action-btn pl-action-btn--primary"
-                            aria-label={`Open profile for ${patient.name}`}
-                          >
-                            <FileText size={13} aria-hidden="true" />
-                            Profile
-                          </Link>
-                        ) : null}
+                      <div className="pl-row-actions" onClick={(e) => e.stopPropagation()}>
+                        <Link
+                          href={`/patients/${patient.profileSlug || patient.id}?role=${role}`}
+                          className="pl-action-btn pl-action-btn--primary"
+                          aria-label={`Open profile for ${patient.name}`}
+                        >
+                          <FileText size={13} aria-hidden="true" />
+                          Profile
+                        </Link>
                         {canManage && (
                           <button type="button" className="pl-action-btn" aria-label={`Book appointment for ${patient.name}`}>
                             <CalendarPlus size={13} aria-hidden="true" />
                             Book
                           </button>
                         )}
-                        {role === "dentist" && patient.profileSlug && (
+                        {role === "dentist" && (
                           <Link href="/clinical/current-visit?role=dentist" className="pl-action-btn" aria-label={`Open visit for ${patient.name}`}>
                             Open visit
                           </Link>

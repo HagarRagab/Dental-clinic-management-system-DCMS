@@ -203,6 +203,6 @@ export function convertToPatientListRow(
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
-    profileSlug: null,
+    profileSlug: `P-${idNum}`,
   };
 }

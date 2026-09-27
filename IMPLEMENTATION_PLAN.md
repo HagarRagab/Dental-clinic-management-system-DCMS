@@ -152,24 +152,30 @@ Acceptance criteria:
 - Non-admin roles properly restricted ✅
 - Lint and tsc pass clean ✅
 
-### TASK-006: Patient List
+### TASK-006: Patient List & Dynamic Routing ✅ COMPLETE
 
 Priority: P2  
-Current state: Only `/patients/mariam-adel` exists.  
-Expected behavior: Patient list/search route.
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
-
-- Add `/patients` route.
-- Add patient list mock service.
-- Update AppShell Patients link from hard-coded profile to `/patients`.
-- Link list rows to `/patients/mariam-adel` until dynamic routing exists.
-- Include search/filter and patient columns: name, mobile, DOB, last visit, next appointment, balance, status.
+Implemented files:
+- `src/app/patients/page.tsx` — thin route wrapper for patient directory.
+- `src/app/patients/[id]/page.tsx` — dynamic App Router route for individual patient profiles.
+- `src/app/patients/mariam-adel/page.tsx` — backward-compatible profile route.
+- `src/features/patients/patient.types.ts` — domain types for patient list and profile.
+- `src/features/patients/services/mock-patient-list-service.ts` — 10 realistic clinic patients with filtering/sorting helpers.
+- `src/features/patients/services/mock-patient-service.ts` — dynamic patient profile resolver `getPatientProfileById`.
+- `src/features/patients/pages/patients-list-screen.tsx` — interactive patient directory table with search, role filters, sorting, new patient modal, and profile links.
+- `src/features/patients/pages/patient-profile-screen.tsx` — full patient profile screen with dynamic header, alerts, and Patient Not Found fallback.
+- `src/styles/patients-list.css` — modular stylesheet for patient directory.
 
 Acceptance criteria:
-
-- Role-appropriate columns/actions.
-- Global patient workflow no longer depends only on direct Mariam Adel link.
+- `/patients` → 200 ✅
+- `/patients/[id]` (e.g. `/patients/pt-002`) → 200 ✅
+- Role-appropriate columns and actions across Admin, Receptionist, and Dentist ✅
+- Global patient directory allows viewing any patient in the roster ✅
+- Clicking any patient row or "Profile" button routes to `/patients/[id]` ✅
+- Invalid patient IDs render clean "Patient Not Found" fallback ✅
+- Lint and tsc pass clean ✅
 
 ### TASK-007: CSV Patient Import ✅ COMPLETE
 
