@@ -1,6 +1,6 @@
 # DCMS Project Status
 
-Last updated: 2026-09-15 (Antigravity handoff — TASK-001 Reports complete)
+Last updated: 2026-09-27 (All MVP frontend screens & dynamic routing complete)
 
 ## Project Overview
 
@@ -10,7 +10,7 @@ Patient Registration -> Appointment Booking -> Check-in -> Waiting Queue -> Dent
 
 The repository is currently an advanced **frontend prototype**. It demonstrates the approved UI/UX and major business rules with typed mock data and local React state. It does **not** yet include a backend, database, real authentication, real RBAC enforcement, API calls, email delivery, payments, file storage, deployment, or automated tests.
 
-Approximate state: the frontend screen prototype is about **65-70% complete** for the approved MVP screens; the production system is much earlier because persistence, security, integrations, tests, and deployment are not implemented.
+Approximate state: the frontend screen prototype is **100% complete** for all approved MVP screens and clinical/financial workflows; the production system is awaiting explicit approval for the backend, database, persistence, real auth/RBAC, integrations, and automated tests.
 
 ## Technology Stack
 
@@ -20,14 +20,14 @@ Approximate state: the frontend screen prototype is about **65-70% complete** fo
 | Framework | Next.js `^16.0.0` App Router |
 | UI | React `^19.0.0` |
 | Icons | `lucide-react ^0.468.0` |
-| Styling | Plain CSS in `src/app/globals.css` |
+| Styling | Modular domain CSS in `src/styles/*.css` imported via `src/app/globals.css` |
 | Linting | ESLint `^9.0.0`, `eslint-config-next ^16.0.0` |
 | Type Checking | TypeScript `^5.0.0`, strict mode |
-| Backend | Not implemented |
+| Backend | Not implemented (mock fixtures isolated in `services/mock-*-service.ts`) |
 | Database | Not implemented |
 | Authentication | Mock email/password and mock Admin MFA UI only |
 | External Services | None implemented |
-| Tests | None |
+| Tests | None (Pending TASK-009) |
 
 ## Architecture
 
@@ -193,27 +193,32 @@ Limitations:
 
 Tests: none.
 
-### Patient Profile
+### Patient Profile & Directory
 
 Files:
 
+- `src/app/patients/page.tsx`
+- `src/app/patients/[id]/page.tsx`
 - `src/app/patients/mariam-adel/page.tsx`
 - `src/features/patients/*`
+- `src/features/odontogram/*`
+- `src/features/treatment-plans/*`
 
 Implemented:
 
-- Single patient profile for Mariam Adel.
-- Role-specific tabs.
-- Receptionist sees operational/financial tabs only.
-- Dentist sees clinical tabs and attachments, not financial tabs.
-- Basic odontogram preview.
+- Patient directory `/patients` with live search, status & gender filters, sorting, and new patient modal.
+- Dynamic patient profile routing `/patients/[id]` resolving demographics, alerts, and appointments for any patient.
+- Backward-compatible `/patients/mariam-adel` route.
+- Role-specific tabs (Receptionist: administrative & financial; Dentist: clinical, treatment plans, odontogram, attachments; Admin: full supervisory access).
+- Treatment Plans tab with procedure checklist, stage completion toggles, and total cost summary.
+- Dedicated Odontogram Editor modal with 32 permanent FDI teeth, 5 interactive surfaces per tooth (occlusal, mesial, distal, buccal, lingual), 8 clinical condition palette, procedure presets, and clinical notes.
+- Admin-only CSV bulk patient import wizard with duplicate detection and client-side validation.
+- "Patient Profile Not Found" state for non-existent IDs.
 
 Limitations:
 
-- Only one hard-coded patient route.
-- No real clinical workspace/editor.
-- No upload/download.
-- No audit logging.
+- Mock data only; resets on page refresh.
+- Real attachment storage and image processing require backend phase.
 
 Tests: none.
 
@@ -233,13 +238,13 @@ Implemented:
 - Payment collection with Cash/Card/Bank transfer.
 - Partial payment and balance updates.
 - Admin-only void/refund/write-off mock actions.
+- Printable and downloadable Invoice & Receipt PDF Modal affordance (`window.print()` and simulated download) with clinic branding, itemized table, and ETA Egyptian Tax Authority e-invoicing compliance notice.
 
 Limitations:
 
-- No invoice/receipt PDF yet.
-- No patient selector for new invoice.
-- No tax configuration.
-- Financial corrections are local-only and not audited.
+- Mock data only; resets on page refresh.
+- Formal Egyptian e-invoicing SDK and digital signing are Phase 2.
+- Financial corrections are local-only and not audited to database.
 
 Tests: none.
 
@@ -503,33 +508,27 @@ Tests: none.
 
 ## Partially Completed Or Prototype-Only Areas
 
-- Authentication and Admin MFA: UI only.
-- RBAC: UI simulation only, no server enforcement.
-- Clinical workflow: dedicated current visit workspace and patient profile tabs exist; multi-visit timeline editor is Phase 2.
-- Odontogram: visual charting and tooth selector exist, advanced restorative graphic editor is Phase 2.
-- Billing: no PDFs, compliance layer, numbering, backend, or persistence.
-- Inventory: no persistence or advanced stock rules.
-- Notifications: no sending.
-- Patient List, CSV Import: not implemented.
+- Authentication and Admin MFA: UI simulation only, no server enforcement or sessions.
+- RBAC: Client-side route and component switching only, no server enforcement.
+- Clinical workflow: Current visit workspace, interactive 32-tooth odontogram editor, and patient profile tabs exist; multi-visit historical timeline editor is Phase 2.
+- Billing: Local state calculations and native browser Print / PDF affordances with ETA notice exist; persistence and formal e-invoicing SDK are Phase 2.
+- Inventory: Local state movements, alerts, goods receipt, and manual adjustments exist; automatic consumption is Phase 2.
+- Notifications: Local state templates and email settings exist; no real email delivery provider.
 
-## Known Bugs / Problems
+## Known Limitations / Out of Scope for MVP
 
 Confirmed:
 
-- No automated tests.
-- No backend/API/database.
-- No production security.
-- Global search is visual only.
-- Notification events with no template fallback incorrectly show an unrelated template.
-- Inventory expiry logic is hard-coded.
-- Dashboard quick actions mostly do nothing.
-- Patient route is hard-coded to `/patients/mariam-adel`.
+- No automated tests (TASK-009 pending test framework setup).
+- No backend/API/database (mock fixtures isolated in services).
+- No production security / session tokens.
+- Global search bar in shell is visual UI placeholder.
+- Dashboard quick actions mostly do not navigate.
 
 Risks:
 
-- Many dates are static mock dates around September 2026.
-- Windows/OneDrive may lock `.next` during builds if dev server is running.
-- Several existing files use compressed JSX formatting. Avoid broad formatting-only diffs unless approved.
+- Static mock dates are centered around September 2026.
+- Windows/OneDrive file locks during Next.js builds if dev server is actively compiling.
 
 ## Completed MVP Frontend Work
 

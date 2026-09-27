@@ -40,7 +40,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Role demo behavior uses `UserRole = "admin" | "receptionist" | "dentist"` from `src/types/index.ts`.
 - The shared shell is `src/components/layout/app-shell.tsx`; update navigation there when adding real screens.
 - Prefer local component state for mock UI interactions. Do not add global state management unless real cross-screen state needs it.
-- CSS is currently centralized in `src/app/globals.css`. Follow the existing module-prefixed class naming pattern such as `.billing-*`, `.inventory-*`, `.doctor-*`, `.notifications-*`.
+- CSS is modularized into domain stylesheets under `src/styles/*.css` (e.g. `billing.css`, `inventory.css`, `clinical.css`, `odontogram.css`, `patients-list.css`) and imported in cascade order into the central manifest `src/app/globals.css`. Follow the existing module-prefixed class naming pattern.
 - Use `lucide-react` icons for UI affordances.
 - Use semantic HTML, visible labels, `aria-label`, `aria-labelledby`, `role="status"`, and clear focusable controls.
 - Preserve responsive behavior with explicit grids, wrapping, horizontal overflow for dense tables/lists, and mobile stacking.

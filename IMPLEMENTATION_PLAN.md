@@ -1,6 +1,6 @@
 # DCMS Implementation Plan
 
-Last updated: 2026-09-15
+Last updated: 2026-09-27
 
 ## Execution Order
 
@@ -342,13 +342,8 @@ Expected behavior: Send booking/confirmation/rescheduling/cancellation/reminder 
 
 ## Next Action For Antigravity
 
-**TASK-001, TASK-002, TASK-003, TASK-004, TASK-005, and TASK-010 all complete.** Continue with **TASK-006 Patient List (P2)**.
+**All MVP frontend screens are complete** (TASK-001 Reports, TASK-002 Settings, TASK-003 Audit Logs, TASK-004 Clinical Workspace, TASK-005 Services/Appointment Types, TASK-006 Patient List & Dynamic Routing, TASK-007 CSV Patient Import, TASK-008 Invoice/Receipt PDF Affordance, Treatment Plans Tab, Dedicated Odontogram Editor, and TASK-010 CSS Modularization).
 
-Before coding:
-
-1. Read `AGENTS.md`.
-2. Read `PROJECT_STATUS.md`.
-3. Run `npm run lint`.
-4. Run `npx tsc --noEmit`.
-5. Inspect `src/features/patients/*` for patient structure and table patterns.
-6. Implement `/patients` using the existing route + feature-folder + mock-service pattern.
+Next available actions:
+1. **TASK-009: Frontend Tests (P2)** — Add automated test runner (e.g. Vitest / React Testing Library) to test role restrictions, form validation, and route rendering.
+2. **Backend / API / Database Phase (TASK-012+)** — Awaiting explicit scope approval per `AGENTS.md`.
