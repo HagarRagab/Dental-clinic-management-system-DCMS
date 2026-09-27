@@ -1,0 +1,472 @@
+/* ═══════════════════════════════════════════════════════════
+   Treatment Plans  (tp-* prefix)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Plans list ───────────────────────────────────────────── */
+.tp-list { display: flex; flex-direction: column; gap: 12px; }
+
+.tp-plan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  transition: border-color 0.15s;
+}
+.tp-plan-card:hover { border-color: color-mix(in srgb, var(--primary) 35%, var(--border)); }
+
+.tp-plan-card__body { flex: 1; min-width: 0; }
+.tp-plan-card__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.tp-plan-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.tp-plan-card__meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+/* Progress bar */
+.tp-progress { margin-bottom: 0; }
+.tp-progress__label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.tp-progress__bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.tp-progress__fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.tp-progress__fill--complete { background: #16a34a; }
+
+/* Plan card actions */
+.tp-plan-card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.tp-plan-card__fee {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+.tp-plan-card__fee-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  display: block;
+  text-align: right;
+}
+
+/* ── Status badges ────────────────────────────────────────── */
+.tp-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tp-status--draft             { background: #f5f5f5; color: #6b7280; }
+.tp-status--pending-approval  { background: #fffbeb; color: #b45309; }
+.tp-status--approved          { background: #eff6ff; color: #1d4ed8; }
+.tp-status--in-progress       { background: #eef2ff; color: #4338ca; }
+.tp-status--completed         { background: #f0fdf4; color: #15803d; }
+.tp-status--cancelled         { background: #fef2f2; color: #b91c1c; }
+
+.tp-step-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.tp-step-status--planned     { background: #f5f5f5; color: #6b7280; }
+.tp-step-status--in-progress { background: #eef2ff; color: #4338ca; }
+.tp-step-status--completed   { background: #f0fdf4; color: #15803d; }
+.tp-step-status--skipped     { background: #fef2f2; color: #b91c1c; }
+
+/* ── Plan detail view ─────────────────────────────────────── */
+.tp-detail { display: flex; flex-direction: column; gap: 20px; }
+
+.tp-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.tp-detail__title-block h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+.tp-detail__title-block p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.tp-detail__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Financial summary bar */
+.tp-financials {
+  display: flex;
+  gap: 24px;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  flex-wrap: wrap;
+}
+.tp-financials__item { display: flex; flex-direction: column; gap: 2px; }
+.tp-financials__label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.tp-financials__value { font-size: 16px; font-weight: 700; color: var(--text); }
+.tp-financials__value--owed { color: #dc2626; }
+.tp-financials__value--paid { color: #15803d; }
+
+/* Steps table */
+.tp-steps-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.tp-steps-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: #fafafa;
+}
+.tp-steps-card__header h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tp-steps-wrap { overflow-x: auto; }
+.tp-steps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.tp-steps-table th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  background: #fafafa;
+  border-bottom: 1px solid var(--border);
+}
+.tp-steps-table td {
+  padding: 12px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid #f5f5f5;
+  color: var(--text);
+}
+.tp-steps-table tbody tr:last-child td { border-bottom: none; }
+.tp-steps-table tbody tr:hover { background: #fafafa; }
+
+.tp-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 10%, white);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tp-step-num--done {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.tp-step-name { font-weight: 600; color: var(--text); display: block; margin-bottom: 2px; }
+.tp-step-code { font-size: 11px; color: var(--muted); }
+.tp-step-notes { font-size: 12px; color: var(--muted); margin-top: 4px; font-style: italic; }
+.tp-step-teeth { font-size: 12px; color: var(--muted); }
+.tp-step-fee { font-weight: 600; white-space: nowrap; }
+
+/* Step action button */
+.tp-step-action {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.tp-step-action:hover {
+  background: #f5f5f5;
+  color: var(--text);
+  border-color: #d1d5db;
+}
+.tp-step-action--complete {
+  background: color-mix(in srgb, var(--primary) 8%, white);
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 25%, white);
+}
+.tp-step-action--complete:hover {
+  background: color-mix(in srgb, var(--primary) 16%, white);
+}
+
+/* Receptionist restricted clinical note */
+.tp-clinical-restricted {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── Feedback banner ──────────────────────────────────────── */
+.tp-feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+}
+.tp-feedback span { flex: 1; }
+.tp-feedback button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #15803d;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+.tp-feedback button:hover { background: #dcfce7; }
+
+/* ── Empty state ──────────────────────────────────────────── */
+.tp-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+.tp-empty svg { color: #d1d5db; margin-bottom: 10px; }
+.tp-empty p { font-size: 14px; margin: 0 0 16px; }
+
+/* ── New plan modal ───────────────────────────────────────── */
+.tp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.tp-modal {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+.tp-modal__header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  z-index: 1;
+}
+.tp-modal__header h2 { margin: 0 0 3px; font-size: 17px; font-weight: 700; }
+.tp-modal__header p  { margin: 0; font-size: 13px; color: var(--muted); }
+.tp-modal__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--muted);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.tp-modal__close:hover { background: #f5f5f5; color: var(--text); }
+.tp-modal__body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+.tp-form-field { display: flex; flex-direction: column; gap: 5px; }
+.tp-form-field > span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tp-form-field input,
+.tp-form-field textarea,
+.tp-form-field select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.tp-form-field input:focus,
+.tp-form-field textarea:focus,
+.tp-form-field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+.tp-form-field textarea { resize: vertical; min-height: 70px; }
+
+/* Steps editor in modal */
+.tp-steps-editor { display: flex; flex-direction: column; gap: 8px; }
+.tp-steps-editor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tp-step-row {
+  display: grid;
+  grid-template-columns: 1fr 80px auto;
+  gap: 8px;
+  align-items: center;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.tp-step-row input { background: var(--surface); }
+.tp-step-row__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+.tp-step-row__remove:hover { background: #fee2e2; color: #dc2626; }
+.tp-add-step-btn {
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.12s;
+}
+.tp-add-step-btn:hover { border-color: var(--primary); color: var(--primary); background: color-mix(in srgb, var(--primary) 5%, white); }
+
+.tp-modal__prototype-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.tp-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 820px) {
+  .tp-plan-card { flex-direction: column; }
+  .tp-plan-card__actions { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+  .tp-detail__header { flex-direction: column; }
+  .tp-financials { gap: 16px; }
+  .tp-step-row { grid-template-columns: 1fr 70px auto; }
+}
+
+@media (max-width: 520px) {
+  .tp-steps-table th:nth-child(n+4),
+  .tp-steps-table td:nth-child(n+4) { display: none; }
+  .tp-modal { margin: 0 8px; }
+  .tp-step-row { grid-template-columns: 1fr; }
+}
