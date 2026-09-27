@@ -171,22 +171,24 @@ Acceptance criteria:
 - Role-appropriate columns/actions.
 - Global patient workflow no longer depends only on direct Mariam Adel link.
 
-### TASK-007: CSV Patient Import
+### TASK-007: CSV Patient Import ✅ COMPLETE
 
 Priority: P2  
-Current state: Not implemented. Optional MVP feature.  
-Expected behavior: Admin-only import UI if confirmed for launch.
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
-
-- Upload -> validate -> preview -> duplicate detection -> Admin approval -> commit.
-- Show invalid rows, warnings, duplicate handling, import progress, failed-row reporting.
-- Keep commit mock-only until backend exists.
+Implemented files:
+- `src/features/patients/services/csv-import-service.ts` — CSV parser, demographic validator, duplicate detector, sample template, and PatientListRow converter.
+- `src/features/patients/components/csv-patient-import-modal.tsx` — 3-step import wizard with drop zone, template download, demo dataset button, validation table with status badges (`Valid`, `Duplicate`, `Error`), duplicate toggle, and commit action.
+- `src/features/patients/pages/patients-list-screen.tsx` — added "Import CSV" button in page heading for Admin only; converted patient list to interactive state with dynamic registration and CSV import append.
+- `src/styles/patients-list.css` — added `.csv-modal-*`, `.csv-dropzone-*`, `.csv-badge-*`, and preview table styles.
 
 Acceptance criteria:
-
-- Admin-only.
-- No direct production import behavior.
+- Admin-only access ✅
+- Drag-and-drop or file select with template download & demo dataset ✅
+- Validation of required fields and mobile syntax ✅
+- Duplicate detection against current clinic roster ✅
+- Table preview with status badges and error callouts ✅
+- Commits valid rows into patient list state with toast notification ✅
 
 ### TASK-008: Invoice/Receipt PDF Affordance ✅ COMPLETE
 

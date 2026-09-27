@@ -543,11 +543,11 @@ Risks:
 - Treatment plans tab & interactive management (`/patients/mariam-adel`)
 - Invoice & Receipt Print / PDF modal affordance (`/billing`)
 - Dedicated Odontogram Editor & FDI surface mapping (`/patients/mariam-adel`)
+- CSV Patient Import & bulk demographic validator (`/patients`)
 - CSS Modularization (`src/styles/*.css`)
 
 ## Not Started
 
-- CSV patient import.
 - Generic patient profile routing (`/patients/[id]`).
 - Backend/API/database/auth (explicitly requires approval).
 - Secure attachment storage.

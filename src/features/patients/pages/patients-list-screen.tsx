@@ -8,6 +8,7 @@ import {
   ChevronDown,
   ChevronUp,
   ChevronsUpDown,
+  FileSpreadsheet,
   FileText,
   Search,
   UserPlus,
@@ -21,6 +22,7 @@ import type { PatientListRow, PatientStatus } from "@/features/patients/patient.
 import type { PatientSortField, SortDirection } from "@/features/patients/services/mock-patient-list-service";
 import { mockPatientList, filterAndSortPatients } from "@/features/patients/services/mock-patient-list-service";
 import { dashboardUsers } from "@/features/dashboard/services/mock-dashboard-service";
+import { CsvPatientImportModal } from "@/features/patients/components/csv-patient-import-modal";
 
 interface PatientsListScreenProps { initialRole: UserRole; }
 
@@ -129,18 +131,20 @@ function NewPatientModal({ onClose, onAdd }: { onClose: () => void; onAdd: (name
 // ─── Main screen ─────────────────────────────────────────────
 export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
   const [role, setRole] = useState<UserRole>(initialRole);
+  const [patientList, setPatientList] = useState<PatientListRow[]>(mockPatientList);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<PatientStatus | "">("");
   const [genderFilter, setGenderFilter] = useState<"Male" | "Female" | "">("");
   const [sortField, setSortField] = useState<PatientSortField>("name");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
   const [showNewPatient, setShowNewPatient] = useState(false);
+  const [showCsvImport, setShowCsvImport] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [unavailableNotice, setUnavailableNotice] = useState<string | null>(null);
 
   const patients = useMemo(
-    () => filterAndSortPatients(mockPatientList, search, statusFilter, genderFilter, sortField, sortDir),
-    [search, statusFilter, genderFilter, sortField, sortDir]
+    () => filterAndSortPatients(patientList, search, statusFilter, genderFilter, sortField, sortDir),
+    [patientList, search, statusFilter, genderFilter, sortField, sortDir]
   );
 
   function handleSort(field: PatientSortField) {
@@ -160,7 +164,32 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
   }
 
   function handlePatientAdded(name: string) {
-    setFeedback(`Patient "${name}" registered successfully. Refresh or sync with backend to persist.`);
+    const initials = name
+      .split(" ")
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "PT";
+
+    const newRow: PatientListRow = {
+      id: `P-${1040 + patientList.length}`,
+      name,
+      initials,
+      mobile: "010 0000 0000",
+      dob: "1995-01-01",
+      age: 31,
+      gender: "Female",
+      status: "Active",
+      lastVisitDate: null,
+      lastVisitType: null,
+      nextAppointment: null,
+      balance: "EGP 0",
+      balanceNumeric: 0,
+      alerts: [],
+      profileSlug: null,
+    };
+    setPatientList((prev) => [newRow, ...prev]);
+    setFeedback(`Patient "${name}" registered successfully. Added to patient list.`);
     setTimeout(() => setFeedback(""), 6000);
   }
 
@@ -175,10 +204,20 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
         <div>
           <p className="page-heading__eyebrow">Patient directory</p>
           <h1>Patients</h1>
-          <p>Browse, search, and manage patient records. {mockPatientList.length} patients in prototype list.</p>
+          <p>Browse, search, and manage patient records. {patientList.length} patients in prototype list.</p>
         </div>
         {canManage && (
-          <div className="page-heading__action">
+          <div className="page-heading__action" style={{ display: "flex", gap: "8px" }}>
+            {role === "admin" && (
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={() => setShowCsvImport(true)}
+              >
+                <FileSpreadsheet aria-hidden="true" size={15} />
+                Import CSV
+              </button>
+            )}
             <button
               type="button"
               className="button button--primary"
@@ -407,6 +446,19 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
         <NewPatientModal
           onClose={() => setShowNewPatient(false)}
           onAdd={handlePatientAdded}
+        />
+      )}
+
+      {/* ── Bulk CSV Import modal ──────────────────────────── */}
+      {showCsvImport && (
+        <CsvPatientImportModal
+          existingPatients={patientList}
+          onClose={() => setShowCsvImport(false)}
+          onImport={(imported) => {
+            setPatientList((prev) => [...imported, ...prev]);
+            setFeedback(`Successfully imported ${imported.length} ${imported.length === 1 ? "patient" : "patients"} from CSV.`);
+            setTimeout(() => setFeedback(""), 6000);
+          }}
         />
       )}
     </AppShell>
