@@ -531,15 +531,27 @@ Risks:
 - Windows/OneDrive may lock `.next` during builds if dev server is running.
 - Several existing files use compressed JSX formatting. Avoid broad formatting-only diffs unless approved.
 
+## Completed MVP Frontend Work
+
+- Core Navigation & App Shell with role switching (`/dashboard`, `/calendar`, etc.)
+- Reports screen (`/reports`)
+- Settings workspace (`/settings`)
+- Audit logs screen (`/audit-logs`)
+- Clinical workspace & current visit (`/clinical/current-visit`)
+- Services & appointment types catalog (`/services`)
+- Patient list & search (`/patients`)
+- Treatment plans tab & interactive management (`/patients/mariam-adel`)
+- Invoice & Receipt Print / PDF modal affordance (`/billing`)
+- Dedicated Odontogram Editor & FDI surface mapping (`/patients/mariam-adel`)
+- CSS Modularization (`src/styles/*.css`)
+
 ## Not Started
 
-- Patient list and generic patient routing.
-- Dedicated odontogram editor.
 - CSV patient import.
-- Invoice/receipt PDF generation.
-- Backend/API/database/auth.
+- Generic patient profile routing (`/patients/[id]`).
+- Backend/API/database/auth (explicitly requires approval).
 - Secure attachment storage.
-- Real email integration.
+- Real email/SMS/WhatsApp integration.
 - Automated tests.
 - Deployment configuration.
 
