@@ -5,6 +5,7 @@ import {
     CircleDollarSign,
     FileLock2,
     Plus,
+    Printer,
     ReceiptText,
     RotateCcw,
     ShieldAlert,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState, type FormEvent } from "react";
 import { AppShell } from "@/components/layout/app-shell";
+import { InvoicePdfModal } from "@/features/billing/components/invoice-pdf-modal";
 import type {
     BillingInvoice,
     InvoiceItem,
@@ -57,6 +59,7 @@ export function BillingScreen({ initialRole }: { initialRole: UserRole }) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("Card");
     const [paymentAmount, setPaymentAmount] = useState("1800");
     const [notice, setNotice] = useState("");
+    const [showPdfModal, setShowPdfModal] = useState(false);
 
     const activeInvoice =
         invoices.find((invoice) => invoice.id === activeInvoiceId) ?? invoices[0];
@@ -311,9 +314,22 @@ export function BillingScreen({ initialRole }: { initialRole: UserRole }) {
                                 {activeInvoice.patient} · Created {activeInvoice.created}
                             </p>
                         </div>
-                        <span className={`invoice-status invoice-status--${invoiceStatusClass(activeInvoice.status)}`}>
-                            {activeInvoice.status}
-                        </span>
+                        <div className="invoice-detail-panel__header-actions">
+                            <span className={`invoice-status invoice-status--${invoiceStatusClass(activeInvoice.status)}`}>
+                                {activeInvoice.status}
+                            </span>
+                            {!isDraft ? (
+                                <button
+                                    type="button"
+                                    className="button button--secondary button--compact invoice-print-btn"
+                                    onClick={() => setShowPdfModal(true)}
+                                    aria-label={`Print or preview PDF for invoice ${activeInvoice.id}`}
+                                >
+                                    <Printer aria-hidden="true" size={14} />
+                                    <span>Print / PDF</span>
+                                </button>
+                            ) : null}
+                        </div>
                     </div>
 
                     {!isDraft ? (
@@ -495,7 +511,18 @@ export function BillingScreen({ initialRole }: { initialRole: UserRole }) {
                                             </small>
                                         </span>
                                     </span>
-                                    <b>{formatEgp(payment.amount)}</b>
+                                    <div className="payment-history__actions">
+                                        <b>{formatEgp(payment.amount)}</b>
+                                        <button
+                                            type="button"
+                                            className="invoice-receipt-btn"
+                                            onClick={() => setShowPdfModal(true)}
+                                            aria-label={`View and print receipt for ${payment.method} payment of ${formatEgp(payment.amount)}`}
+                                        >
+                                            <Printer aria-hidden="true" size={11} />
+                                            <span>Receipt</span>
+                                        </button>
+                                    </div>
                                 </article>
                             ))}
                         </section>
@@ -523,6 +550,12 @@ export function BillingScreen({ initialRole }: { initialRole: UserRole }) {
                     ) : null}
                 </article>
             </section>
+            {showPdfModal ? (
+                <InvoicePdfModal
+                    invoice={activeInvoice}
+                    onClose={() => setShowPdfModal(false)}
+                />
+            ) : null}
         </AppShell>
     );
 }

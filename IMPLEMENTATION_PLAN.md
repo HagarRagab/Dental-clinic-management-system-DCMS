@@ -188,23 +188,22 @@ Acceptance criteria:
 - Admin-only.
 - No direct production import behavior.
 
-### TASK-008: Invoice/Receipt PDF Affordance
+### TASK-008: Invoice/Receipt PDF Affordance ✅ COMPLETE
 
 Priority: P2  
-Current state: Billing has no PDF print/download UI.  
-Expected behavior: Add invoice/receipt print/download affordances and preview layout.
+Current state: **Implemented.** All acceptance criteria met.
 
-Remaining:
-
-- Add buttons for finalized invoices/receipts.
-- Add print-friendly invoice/receipt preview surface.
-- Do not claim Egyptian e-invoice/e-receipt compliance.
-- Real PDF generation should be approved before adding a dependency.
+Implemented files:
+- `src/features/billing/components/invoice-pdf-modal.tsx` — printable and downloadable invoice/receipt preview modal with clinic branding, patient info, itemized table, payment history, totals, and legal compliance disclaimer.
+- `src/features/billing/pages/billing-screen.tsx` — added Print / PDF action to finalized/paid invoices and Receipt print buttons to payment history list.
+- `src/features/patients/components/patient-profile-tabs.tsx` — added `"use client";` directive; connected `PatientFinancialTab` with Statement Print and Payment Receipt preview modal.
+- `src/styles/billing.css` — added `.invoice-pdf-modal-*` styles and full `@media print` rules ensuring clean A4 sheet printing without shell/sidebar UI.
 
 Acceptance criteria:
-
-- Users can see where invoice/receipt PDF actions will live.
-- Compliance boundary remains clear.
+- Users can see where invoice/receipt PDF actions live ✅
+- Browser-native clean print preview via `window.print()` and simulated PDF download ✅
+- Compliance boundary remains clear (ETA e-invoicing Phase 2 disclaimer) ✅
+- Lint and tsc pass clean ✅
 
 ### TASK-009: Frontend Tests
 
