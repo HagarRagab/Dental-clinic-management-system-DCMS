@@ -169,13 +169,26 @@ function RenderTab({
             <h2>Clinical records</h2>
             <p>Finalized records are protected from direct editing.</p>
           </div>
-          <button
-            type="button"
-            className="button button--primary profile-action-button"
-          >
-            <FileText aria-hidden="true" />
-            New clinical record
-          </button>
+          {role === "dentist" ? (
+            <Link
+              href={`/clinical/current-visit?role=${role}`}
+              className="button button--primary profile-action-button"
+              style={{ textDecoration: "none" }}
+            >
+              <FileText aria-hidden="true" />
+              New clinical record
+            </Link>
+          ) : (
+            <span
+              className="button button--primary profile-action-button"
+              aria-disabled="true"
+              title="Only dentists can create clinical records"
+              style={{ opacity: 0.45, cursor: "not-allowed", textDecoration: "none" }}
+            >
+              <FileText aria-hidden="true" />
+              New clinical record
+            </span>
+          )}
         </div>
         <div className="clinical-record-list">
           <article>
@@ -187,9 +200,13 @@ function RenderTab({
               <h3>Root canal treatment</h3>
               <p>8 September 2026 · Dr. Karim Mostafa</p>
             </div>
-            <button type="button" className="button button--secondary">
+            <Link
+              href={`/clinical/current-visit?role=${role}&recordId=rec-001&view=finalized`}
+              className="button button--secondary"
+              style={{ textDecoration: "none" }}
+            >
               View record
-            </button>
+            </Link>
           </article>
           <article>
             <div>
@@ -197,9 +214,24 @@ function RenderTab({
               <h3>Follow-up preparation</h3>
               <p>13 September 2026 · Dr. Karim Mostafa</p>
             </div>
-            <button type="button" className="button button--secondary">
-              Continue draft
-            </button>
+            {role === "dentist" ? (
+              <Link
+                href={`/clinical/current-visit?role=${role}&recordId=rec-002`}
+                className="button button--secondary"
+                style={{ textDecoration: "none" }}
+              >
+                Continue draft
+              </Link>
+            ) : (
+              <span
+                className="button button--secondary"
+                aria-disabled="true"
+                title="Only dentists can edit clinical records"
+                style={{ opacity: 0.45, cursor: "not-allowed" }}
+              >
+                Continue draft
+              </span>
+            )}
           </article>
         </div>
       </section>
