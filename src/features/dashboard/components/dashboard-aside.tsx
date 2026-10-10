@@ -65,13 +65,13 @@ export function DashboardAside({ role }: { role: UserRole }) {
         <aside className="dashboard-aside">
             {role === "receptionist" ? (
                 <section className="quick-actions" aria-label="Quick actions">
-                    <button
+                    <Link
+                        href={`/appointments/new?role=${role}`}
                         className="quick-action quick-action--primary"
-                        type="button"
                     >
                         <Plus aria-hidden="true" />
                         New appointment
-                    </button>
+                    </Link>
                     <button className="quick-action" type="button">
                         <Search aria-hidden="true" />
                         Find patient

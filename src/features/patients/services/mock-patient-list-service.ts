@@ -1,4 +1,8 @@
-import type { PatientListRow } from "@/features/patients/patient.types";
+import type {
+  PatientListRow,
+  PatientSortField,
+  SortDirection,
+} from "@/features/patients/patient.types";
 
 export const mockPatientList: PatientListRow[] = [
   {
@@ -12,7 +16,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "Active",
     lastVisitDate: "10 Sep 2026",
     lastVisitType: "Root canal treatment",
-    nextAppointment: { date: "Sat, 13 Sep", time: "14:00", type: "Root canal follow-up", dentist: "Dr. Karim Mostafa" },
+    nextAppointment: {
+      date: "Sat, 13 Sep",
+      time: "14:00",
+      type: "Root canal follow-up",
+      dentist: "Dr. Karim Mostafa",
+    },
     balance: "EGP 1,450",
     balanceNumeric: 1450,
     alerts: ["Penicillin allergy"],
@@ -46,7 +55,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "Active",
     lastVisitDate: "05 Sep 2026",
     lastVisitType: "Composite filling",
-    nextAppointment: { date: "Mon, 15 Sep", time: "10:00", type: "Composite filling — check", dentist: "Dr. Amira Fathy" },
+    nextAppointment: {
+      date: "Mon, 15 Sep",
+      time: "10:00",
+      type: "Composite filling — check",
+      dentist: "Dr. Amira Fathy",
+    },
     balance: "EGP 800",
     balanceNumeric: 800,
     alerts: [],
@@ -63,7 +77,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "New",
     lastVisitDate: null,
     lastVisitType: null,
-    nextAppointment: { date: "Tue, 16 Sep", time: "09:00", type: "New patient examination", dentist: "Dr. Karim Mostafa" },
+    nextAppointment: {
+      date: "Tue, 16 Sep",
+      time: "09:00",
+      type: "New patient examination",
+      dentist: "Dr. Karim Mostafa",
+    },
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
@@ -97,7 +116,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "Active",
     lastVisitDate: "22 Aug 2026",
     lastVisitType: "Orthodontic adjustment",
-    nextAppointment: { date: "Wed, 17 Sep", time: "11:30", type: "Orthodontic adjustment", dentist: "Dr. Amira Fathy" },
+    nextAppointment: {
+      date: "Wed, 17 Sep",
+      time: "11:30",
+      type: "Orthodontic adjustment",
+      dentist: "Dr. Amira Fathy",
+    },
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: [],
@@ -148,7 +172,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "Active",
     lastVisitDate: "03 Sep 2026",
     lastVisitType: "Full mouth X-ray",
-    nextAppointment: { date: "Thu, 18 Sep", time: "13:00", type: "Treatment planning", dentist: "Dr. Karim Mostafa" },
+    nextAppointment: {
+      date: "Thu, 18 Sep",
+      time: "13:00",
+      type: "Treatment planning",
+      dentist: "Dr. Karim Mostafa",
+    },
     balance: "EGP 500",
     balanceNumeric: 500,
     alerts: [],
@@ -165,7 +194,12 @@ export const mockPatientList: PatientListRow[] = [
     status: "New",
     lastVisitDate: null,
     lastVisitType: null,
-    nextAppointment: { date: "Fri, 19 Sep", time: "15:30", type: "Orthodontic consultation", dentist: "Dr. Amira Fathy" },
+    nextAppointment: {
+      date: "Fri, 19 Sep",
+      time: "15:30",
+      type: "Orthodontic consultation",
+      dentist: "Dr. Amira Fathy",
+    },
     balance: "EGP 0",
     balanceNumeric: 0,
     alerts: ["Minor — guardian consent required"],
@@ -173,20 +207,18 @@ export const mockPatientList: PatientListRow[] = [
   },
 ];
 
-export type PatientSortField = "name" | "dob" | "lastVisitDate" | "balance" | "nextAppointment";
-export type SortDirection = "asc" | "desc";
-
 export function filterAndSortPatients(
   patients: PatientListRow[],
   search: string,
   statusFilter: string,
   genderFilter: string,
   sortField: PatientSortField,
-  sortDir: SortDirection
+  sortDir: SortDirection,
 ): PatientListRow[] {
   const q = search.trim().toLowerCase();
   let result = patients.filter((p) => {
-    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.mobile.includes(q);
+    const matchSearch =
+      !q || p.name.toLowerCase().includes(q) || p.mobile.includes(q);
     const matchStatus = !statusFilter || p.status === statusFilter;
     const matchGender = !genderFilter || p.gender === genderFilter;
     return matchSearch && matchStatus && matchGender;
@@ -195,10 +227,15 @@ export function filterAndSortPatients(
   result = [...result].sort((a, b) => {
     let cmp = 0;
     if (sortField === "name") cmp = a.name.localeCompare(b.name);
-    else if (sortField === "dob") cmp = a.age - b.age; // older = smaller age value descending
-    else if (sortField === "lastVisitDate") cmp = (a.lastVisitDate ?? "").localeCompare(b.lastVisitDate ?? "");
+    else if (sortField === "dob")
+      cmp = a.age - b.age; // older = smaller age value descending
+    else if (sortField === "lastVisitDate")
+      cmp = (a.lastVisitDate ?? "").localeCompare(b.lastVisitDate ?? "");
     else if (sortField === "balance") cmp = a.balanceNumeric - b.balanceNumeric;
-    else if (sortField === "nextAppointment") cmp = (a.nextAppointment?.date ?? "").localeCompare(b.nextAppointment?.date ?? "");
+    else if (sortField === "nextAppointment")
+      cmp = (a.nextAppointment?.date ?? "").localeCompare(
+        b.nextAppointment?.date ?? "",
+      );
     return sortDir === "asc" ? cmp : -cmp;
   });
 

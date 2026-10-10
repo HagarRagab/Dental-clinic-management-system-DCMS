@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CalendarPlus } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/layout/app-shell";
@@ -15,6 +16,7 @@ import type { UserRole } from "@/types";
 export function DashboardScreen({ initialRole }: { initialRole: UserRole }) {
     const [role, setRole] = useState<UserRole>(initialRole);
     const dashboard = getMockDashboard(role);
+
     return (
         <AppShell
             activeItem={role === "dentist" ? "Today" : "Dashboard"}
@@ -31,14 +33,15 @@ export function DashboardScreen({ initialRole }: { initialRole: UserRole }) {
                     <p>{dashboard.description}</p>
                 </div>
                 {role !== "dentist" ? (
-                    <button
+                    <Link
+                        href={`/appointments/new?role=${role}`}
                         className="button button--primary page-heading__action"
-                        type="button"
                     >
                         <CalendarPlus aria-hidden="true" /> New appointment
-                    </button>
+                    </Link>
                 ) : null}
             </div>
+
             <section className="metric-grid" aria-label="Today at a glance">
                 {dashboard.metrics.map((metric) => (
                     <MetricCard key={metric.label} {...metric} />

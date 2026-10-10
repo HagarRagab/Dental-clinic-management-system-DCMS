@@ -156,7 +156,7 @@ Implemented:
 - Dentist and appointment-type filters.
 - Appointment cards with lifecycle status and visit state.
 - Detail panel with role-based actions.
-- New appointment link for non-dentists.
+- Header action links directly to `/appointments/new?role=${role}` for non-dentists.
 
 Limitations:
 
@@ -167,7 +167,7 @@ Limitations:
 
 Tests: none.
 
-### New Appointment Form
+### New Appointment Page & Booking Flow
 
 Files:
 
@@ -179,17 +179,21 @@ Files:
 
 Implemented:
 
-- Three-step booking flow.
-- Patient search/select and create-new-patient UI.
-- Dentist/type/date/duration/chair/notes/slot fields.
-- Mock conflict warning and Admin override toggle.
-- Success state.
+- Dedicated `/appointments/new` 3-step booking flow unified across the entire application:
+  - **Dashboard (`/`)**: Header action and Quick Actions panel redirect to `/appointments/new?role=${role}`.
+  - **Calendar (`/calendar`)**: Header action redirects to `/appointments/new?role=${role}`.
+  - **Patient Profile (`/patients/[id]`)**: Header button, next-appointment empty banner link, and Appointments tab link directly to `/appointments/new?role=${role}&patientId=${patient.id}`, automatically pre-selecting the patient and advancing to step 2.
+  - **Patient Directory (`/patients`)**: Table row "Book" action redirects to `/appointments/new?role=${role}&patientId=${patient.profileSlug || patient.id}` with the patient pre-selected.
+- Role-based access control and least-privilege enforcement:
+  - **Dentists**: Restricted from booking visits; navigating to `/appointments/new?role=dentist` presents the standard restricted workspace view.
+  - **Receptionists**: Allowed to search patients, choose slots, and submit bookings; conflict overrides are disabled.
+  - **Admins**: Full booking access including schedule conflict overrides.
+- Patient directory integration in `mock-booking-service.ts`: live search and ID/slug resolution across all 10 mock patients.
 
 Limitations:
 
-- Submitted appointments are not persisted or reflected on calendar.
-- Override reason/audit is not persisted.
-- Validation is basic.
+- Local prototype state resets on page refresh.
+- Override reason is recorded in mock state only.
 
 Tests: none.
 

@@ -44,3 +44,8 @@ export type Supplier = {
     lastReceipt: string;
 };
 
+export type InventoryTab =
+    | "Items"
+    | "Suppliers"
+    | "Goods receipts"
+    | "Stock movements";

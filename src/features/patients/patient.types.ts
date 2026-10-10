@@ -10,7 +10,12 @@ export type PatientProfile = {
   emergencyContact: string;
   allergies: string[];
   currentMedications: string;
-  nextAppointment: { date: string; time: string; type: string; dentist: string } | null;
+  nextAppointment: {
+    date: string;
+    time: string;
+    type: string;
+    dentist: string;
+  } | null;
   balance: string;
 };
 
@@ -27,7 +32,12 @@ export type PatientListRow = {
   status: PatientStatus;
   lastVisitDate: string | null;
   lastVisitType: string | null;
-  nextAppointment: { date: string; time: string; type: string; dentist: string } | null;
+  nextAppointment: {
+    date: string;
+    time: string;
+    type: string;
+    dentist: string;
+  } | null;
   balance: string;
   balanceNumeric: number;
   alerts: string[];
@@ -35,4 +45,21 @@ export type PatientListRow = {
   profileSlug: string | null;
 };
 
-export type PatientTab = "Overview" | "Appointments" | "Clinical Records" | "Treatment Plans" | "Odontogram" | "Invoices" | "Payments" | "Patient Statement" | "Attachments";
+export type PatientTab =
+  | "Overview"
+  | "Appointments"
+  | "Clinical Records"
+  | "Treatment Plans"
+  | "Odontogram"
+  | "Invoices"
+  | "Payments"
+  | "Patient Statement"
+  | "Attachments";
+
+export type PatientSortField =
+  | "name"
+  | "dob"
+  | "lastVisitDate"
+  | "balance"
+  | "nextAppointment";
+export type SortDirection = "asc" | "desc";
