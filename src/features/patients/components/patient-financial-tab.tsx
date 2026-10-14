@@ -33,10 +33,7 @@ function PatientFinancialTab({
               : "Patient billing activity"}
           </p>
         </div>
-        <div
-          className="profile-section__actions"
-          style={{ display: "flex", gap: "8px" }}
-        >
+        <div className="profile-section__actions flex gap-2">
           {tab === "Invoices" ? (
             <button
               type="button"
@@ -116,12 +113,11 @@ function PatientFinancialTab({
             <strong>Card payment</strong>
             <small>Receipt #RCT-891 · Invoice #INV-1019</small>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="flex items-center gap-2.5">
             <b className="financial-ledger__positive">EGP 4,500</b>
             <button
               type="button"
-              className="button button--secondary button--compact"
-              style={{ padding: "3px 8px", fontSize: 11, minHeight: 28 }}
+              className="button button--secondary button--compact py-[3px] px-2 text-[11px] min-h-[28px]"
               onClick={() => {
                 const inv =
                   mockInvoices.find((i) => i.id === "INV-1019") ||

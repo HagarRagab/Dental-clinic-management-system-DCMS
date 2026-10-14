@@ -54,7 +54,7 @@ function InteractiveOdChart({
           })}
         </div>
 
-        <div className="clinical-arch-label" style={{ marginTop: 12 }}>
+        <div className="clinical-arch-label mt-3">
           Lower Arch (Mandibular)
         </div>
         <div className="clinical-tooth-row">

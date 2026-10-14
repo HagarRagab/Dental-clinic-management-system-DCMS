@@ -113,7 +113,7 @@ function Procedures({
             </div>
           </div>
 
-          <div style={{ marginTop: 10 }}>
+          <div className="mt-2.5">
             <label className="clinical-field-label">
               Materials &amp; Anesthesia
             </label>
@@ -126,7 +126,7 @@ function Procedures({
             />
           </div>
 
-          <div style={{ marginTop: 10 }}>
+          <div className="mt-2.5">
             <label className="clinical-field-label">Procedure notes</label>
             <input
               type="text"

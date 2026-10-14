@@ -24,9 +24,8 @@ export function DashboardAside({ role }: { role: UserRole }) {
                         <AlertTriangle aria-hidden="true" /> Penicillin allergy
                     </div>
                     <Link
-                        className="button button--primary button--full"
+                        className="button button--primary button--full text-center no-underline flex justify-center"
                         href="/clinical/current-visit?role=dentist"
-                        style={{ textAlign: "center", textDecoration: "none", display: "flex", justifyContent: "center" }}
                     >
                         Start visit
                     </Link>

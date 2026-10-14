@@ -12,6 +12,8 @@ function CalendarToolbar({
     typeFilter,
     setTypeFilter,
     appointmentTypes,
+    currentDate,
+    setCurrentDate,
 }: {
     view: "day" | "week";
     setView: Dispatch<SetStateAction<"day" | "week">>;
@@ -22,24 +24,56 @@ function CalendarToolbar({
     typeFilter: string;
     setTypeFilter: Dispatch<SetStateAction<string>>;
     appointmentTypes: string[];
+    currentDate: Date;
+    setCurrentDate: Dispatch<SetStateAction<Date>>;
 }) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const isToday =
+        currentDate.toDateString() === today.toDateString();
+
+    const step = view === "week" ? 7 : 1;
+
+    function shiftDate(delta: number) {
+        setCurrentDate((d) => {
+            const next = new Date(d);
+            next.setDate(next.getDate() + delta);
+            return next;
+        });
+    }
+
+    const formattedDate = currentDate.toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+    });
+
     return (
         <section className="calendar-toolbar" aria-label="Calendar controls">
             <div className="calendar-toolbar__date">
                 <button
                     type="button"
                     className="icon-button"
-                    aria-label="Previous day"
+                    aria-label={view === "week" ? "Previous week" : "Previous day"}
+                    onClick={() => shiftDate(-step)}
                 >
                     <ChevronLeft aria-hidden="true" />
                 </button>
-                <button type="button" className="calendar-date-button">
-                    Today <span>Saturday, 13 September</span>
+                <button
+                    type="button"
+                    className="calendar-date-button"
+                    aria-label="Go to today"
+                    onClick={() => setCurrentDate(new Date())}
+                >
+                    {isToday ? "Today" : "Go to today"}
+                    <span>{formattedDate}</span>
                 </button>
                 <button
                     type="button"
                     className="icon-button"
-                    aria-label="Next day"
+                    aria-label={view === "week" ? "Next week" : "Next day"}
+                    onClick={() => shiftDate(step)}
                 >
                     <ChevronRight aria-hidden="true" />
                 </button>

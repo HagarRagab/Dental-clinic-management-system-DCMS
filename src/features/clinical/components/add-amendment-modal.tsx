@@ -88,7 +88,7 @@ function AddAmendmentModal({
             </option>
           </select>
 
-          <div style={{ marginTop: 12 }}>
+          <div className="mt-3">
             <label className="clinical-field-label">Addendum text</label>
             <textarea
               className="clinical-textarea"

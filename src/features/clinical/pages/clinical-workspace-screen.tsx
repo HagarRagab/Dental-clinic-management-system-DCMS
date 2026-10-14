@@ -118,9 +118,7 @@ export function ClinicalWorkspaceScreen({
             clinical notes, dental diagnoses, odontogram charts, and clinical
             attachments in accordance with medical privacy standards.
           </p>
-          <div
-            style={{ marginTop: 20, display: "flex", justifyContent: "center" }}
-          >
+          <div className="mt-5 flex justify-center">
             <Link
               href="/calendar?role=receptionist"
               className="button button--secondary"
@@ -296,8 +294,7 @@ export function ClinicalWorkspaceScreen({
                 </button>
                 <button
                   type="button"
-                  className="button button--primary button--full"
-                  style={{ marginTop: 10 }}
+                  className="button button--primary button--full mt-2.5"
                   onClick={() => setShowFinalizeModal(true)}
                 >
                   <FileCheck2 aria-hidden="true" />
@@ -316,8 +313,7 @@ export function ClinicalWorkspaceScreen({
                 <p>Corrections must be made as an audited addendum.</p>
                 <button
                   type="button"
-                  className="button button--secondary button--full"
-                  style={{ marginTop: 12 }}
+                  className="button button--secondary button--full mt-3"
                   onClick={() => setShowAmendmentModal(true)}
                 >
                   <Plus aria-hidden="true" />

@@ -50,7 +50,7 @@ function NewPatientModal({
             <label className="pl-form-field">
               <span>
                 First name{" "}
-                <span aria-hidden="true" style={{ color: "#dc2626" }}>
+                <span aria-hidden="true" className="text-red-600">
                   *
                 </span>
               </span>
@@ -66,7 +66,7 @@ function NewPatientModal({
             <label className="pl-form-field">
               <span>
                 Last name{" "}
-                <span aria-hidden="true" style={{ color: "#dc2626" }}>
+                <span aria-hidden="true" className="text-red-600">
                   *
                 </span>
               </span>
@@ -82,7 +82,7 @@ function NewPatientModal({
           <label className="pl-form-field">
             <span>
               Mobile{" "}
-              <span aria-hidden="true" style={{ color: "#dc2626" }}>
+              <span aria-hidden="true" className="text-red-600">
                 *
               </span>
             </span>

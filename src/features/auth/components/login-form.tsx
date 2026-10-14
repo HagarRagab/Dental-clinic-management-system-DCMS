@@ -40,6 +40,7 @@ export function LoginForm() {
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     placeholder="000000"
+                    className="my-2"
                 />
                 <Button
                     fullWidth
@@ -110,6 +111,7 @@ export function LoginForm() {
                             type="email"
                             autoComplete="email"
                             placeholder="name@clinic.com"
+                            className="text-input"
                             value={values.email}
                             onChange={(event) =>
                                 updateValue("email", event.target.value)
@@ -134,6 +136,7 @@ export function LoginForm() {
                             type={showPassword ? "text" : "password"}
                             autoComplete="current-password"
                             placeholder="Enter your password"
+                            className="text-input"
                             value={values.password}
                             onChange={(event) =>
                                 updateValue("password", event.target.value)

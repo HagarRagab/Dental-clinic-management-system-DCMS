@@ -59,8 +59,7 @@ function AddAppointmentTemplateModal({
                     </div>
                     <button
                         type="button"
-                        className="icon-button"
-                        style={{ marginLeft: "auto" }}
+                        className="icon-button ml-auto"
                         onClick={() => setShowAddApptModal(false)}
                         aria-label="Close modal"
                     >
@@ -83,8 +82,7 @@ function AddAppointmentTemplateModal({
                     </div>
 
                     <div
-                        className="services-form-grid-2"
-                        style={{ marginTop: 12 }}
+                        className="services-form-grid-2 mt-3"
                     >
                         <div>
                             <label className="services-field-label">
@@ -121,8 +119,7 @@ function AddAppointmentTemplateModal({
                     </div>
 
                     <div
-                        className="services-form-grid-2"
-                        style={{ marginTop: 12 }}
+                        className="services-form-grid-2 mt-3"
                     >
                         <div>
                             <label className="services-field-label">
@@ -130,8 +127,7 @@ function AddAppointmentTemplateModal({
                             </label>
                             <input
                                 type="color"
-                                className="text-input"
-                                style={{ padding: 4, height: 42 }}
+                                className="text-input p-1 h-[42px]"
                                 value={aptColor}
                                 onChange={(e) => setAptColor(e.target.value)}
                             />
@@ -151,13 +147,12 @@ function AddAppointmentTemplateModal({
                         </div>
                     </div>
 
-                    <div style={{ marginTop: 12 }}>
+                    <div className="mt-3">
                         <label className="services-field-label">
                             Description
                         </label>
                         <textarea
-                            className="text-input"
-                            style={{ minHeight: 60, paddingTop: 8 }}
+                            className="text-input min-h-[60px] pt-2"
                             value={aptDesc}
                             onChange={(e) => setAptDesc(e.target.value)}
                             placeholder="What is included in this appointment..."

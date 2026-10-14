@@ -142,34 +142,34 @@ export function InvoicePdfModal({ invoice, onClose }: InvoicePdfModalProps) {
             <table className="invoice-document__table" aria-label="Invoice line items">
               <thead>
                 <tr>
-                  <th style={{ width: "36px" }}>#</th>
+                  <th className="w-9">#</th>
                   <th>Service / Treatment Description</th>
                   <th>Category</th>
-                  <th style={{ textAlign: "center", width: "60px" }}>Qty</th>
-                  <th style={{ textAlign: "right", width: "110px" }}>Unit Price</th>
-                  <th style={{ textAlign: "right", width: "110px" }}>Total</th>
+                  <th className="text-center w-[60px]">Qty</th>
+                  <th className="text-right w-[110px]">Unit Price</th>
+                  <th className="text-right w-[110px]">Total</th>
                 </tr>
               </thead>
               <tbody>
                 {invoice.items.length === 0 ? (
                   <tr>
-                    <td colSpan={6} style={{ textAlign: "center", padding: "20px", color: "var(--muted)" }}>
+                    <td colSpan={6} className="text-center p-5 text-[var(--muted)]">
                       No items listed on this invoice.
                     </td>
                   </tr>
                 ) : (
                   invoice.items.map((item, index) => (
                     <tr key={item.id}>
-                      <td style={{ color: "var(--muted)" }}>{index + 1}</td>
+                      <td className="text-[var(--muted)]">{index + 1}</td>
                       <td>
                         <strong>{item.description}</strong>
                       </td>
-                      <td style={{ color: "var(--muted)", textTransform: "capitalize" }}>
+                      <td className="text-[var(--muted)] capitalize">
                         {item.source}
                       </td>
-                      <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                      <td style={{ textAlign: "right" }}>{formatEgp(item.unitPrice)}</td>
-                      <td style={{ textAlign: "right", fontWeight: 600 }}>
+                      <td className="text-center">{item.quantity}</td>
+                      <td className="text-right">{formatEgp(item.unitPrice)}</td>
+                      <td className="text-right font-semibold">
                         {formatEgp(item.quantity * item.unitPrice)}
                       </td>
                     </tr>
@@ -203,7 +203,7 @@ export function InvoicePdfModal({ invoice, onClose }: InvoicePdfModalProps) {
                           </td>
                           <td>{p.date}</td>
                           <td>{p.method}</td>
-                          <td style={{ textAlign: "right", fontWeight: 600, color: "#15803d" }}>
+                          <td className="text-right font-semibold text-green-700">
                             {formatEgp(p.amount)}
                           </td>
                         </tr>
@@ -222,7 +222,7 @@ export function InvoicePdfModal({ invoice, onClose }: InvoicePdfModalProps) {
                 {invoice.discount > 0 && (
                   <div className="invoice-document__totals-row">
                     <span>Discount</span>
-                    <strong style={{ color: "#dc2626" }}>-{formatEgp(invoice.discount)}</strong>
+                    <strong className="text-red-600">-{formatEgp(invoice.discount)}</strong>
                   </div>
                 )}
                 <div className="invoice-document__totals-row">
@@ -232,7 +232,7 @@ export function InvoicePdfModal({ invoice, onClose }: InvoicePdfModalProps) {
                 {invoice.writeOff > 0 && (
                   <div className="invoice-document__totals-row">
                     <span>Write-off</span>
-                    <strong style={{ color: "#b45309" }}>-{formatEgp(invoice.writeOff)}</strong>
+                    <strong className="text-amber-700">-{formatEgp(invoice.writeOff)}</strong>
                   </div>
                 )}
                 <div className="invoice-document__totals-row invoice-document__totals-row--total">
@@ -241,11 +241,11 @@ export function InvoicePdfModal({ invoice, onClose }: InvoicePdfModalProps) {
                 </div>
                 <div className="invoice-document__totals-row">
                   <span>Total Paid</span>
-                  <strong style={{ color: "#15803d" }}>{formatEgp(paid)}</strong>
+                  <strong className="text-green-700">{formatEgp(paid)}</strong>
                 </div>
                 <div className="invoice-document__totals-row invoice-document__totals-row--balance">
                   <span>Remaining Balance</span>
-                  <strong style={{ color: balance > 0 ? "#dc2626" : "#15803d" }}>
+                  <strong className={balance > 0 ? "text-red-600" : "text-green-700"}>
                     {formatEgp(Math.max(0, balance))}
                   </strong>
                 </div>

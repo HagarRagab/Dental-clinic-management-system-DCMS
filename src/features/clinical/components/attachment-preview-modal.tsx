@@ -21,8 +21,7 @@ function AttachmentPreviewModal({
           </div>
           <button
             type="button"
-            className="icon-button"
-            style={{ marginLeft: "auto" }}
+            className="icon-button ml-auto"
             onClick={() => setPreviewAttachment(null)}
             aria-label="Close radiograph preview"
           >

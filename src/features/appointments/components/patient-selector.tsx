@@ -1,6 +1,6 @@
 import { AlertTriangle, Plus, Search, UserRound } from "lucide-react";
 import { useMemo, useState } from "react";
-import type { BookingPatient } from "@/features/appointments/services/mock-booking-service";
+import type { BookingPatient } from "../appointment.types";
 
 export function PatientSelector({
     patients,

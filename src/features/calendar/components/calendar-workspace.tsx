@@ -50,7 +50,7 @@ function CalendarWorkspace({
                     (typeFilter === "All appointment types" ||
                         appointment.type === typeFilter),
             ),
-        [dentistFilter, typeFilter],
+        [appointments, dentistFilter, typeFilter],
     );
 
     return (

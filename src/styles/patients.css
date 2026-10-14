@@ -6,13 +6,20 @@
     color: var(--muted);
     font-size: 12px;
 }
-.patient-breadcrumb a {
+.patient-breadcrumb a,
+.patient-breadcrumb button,
+.breadcrumb-back-button {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    border: 0;
+    padding: 0;
+    background: transparent;
     color: var(--primary);
     font-weight: 600;
+    font-size: inherit;
     text-decoration: none;
+    cursor: pointer;
 }
 .patient-breadcrumb svg {
     width: 15px;

@@ -51,7 +51,7 @@ function Diagnosis({
           )}
         </div>
 
-        <div style={{ width: 140 }}>
+        <div className="w-[140px]">
           <label className="clinical-field-label" htmlFor="icd-code">
             ICD / Code
           </label>
@@ -71,7 +71,7 @@ function Diagnosis({
           )}
         </div>
 
-        <div style={{ width: 130 }}>
+        <div className="w-[130px]">
           <label className="clinical-field-label">Tooth target</label>
           <div className="clinical-tooth-target">Tooth #{selectedTooth}</div>
         </div>

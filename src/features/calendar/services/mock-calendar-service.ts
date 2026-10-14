@@ -1,5 +1,18 @@
 import type { CalendarAppointment } from "@/features/calendar/calendar.types";
 
+/** Maps known calendar patient names to their patient-profile slugs. */
+const patientSlugMap: Record<string, string> = {
+    "Mariam Adel": "mariam-adel",
+    "Omar Nabil": "pt-002",
+    "Laila Ahmed": "pt-003",
+    "Youssef Tarek": "pt-004",
+    "Hana Youssef": "pt-005",
+};
+
+export function getPatientSlugByName(name: string): string {
+    return patientSlugMap[name] ?? name.toLowerCase().replace(/\s+/g, "-");
+}
+
 export const calendarDentists = [
     "All dentists",
     "Dr. Salma Hassan",

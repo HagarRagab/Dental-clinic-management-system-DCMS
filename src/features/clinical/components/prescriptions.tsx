@@ -41,7 +41,7 @@ function Prescriptions({
         )}
       </div>
 
-      <div className="clinical-form-group" style={{ marginTop: 12 }}>
+      <div className="clinical-form-group mt-3">
         <label htmlFor="next-visit-field">
           <strong>Next visit recommendation</strong>
         </label>

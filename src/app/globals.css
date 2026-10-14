@@ -1,3 +1,36 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Tailwind CSS v4 Theme Token Bindings
+   Maps existing clinic CSS custom properties to Tailwind utility tokens
+   ========================================================================== */
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-error: var(--error);
+  --color-success: var(--success);
+
+  /* shadcn/ui semantic tokens */
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-secondary: #f0f4f8;
+  --color-secondary-foreground: var(--text);
+  --color-destructive: var(--error);
+  --color-destructive-foreground: #ffffff;
+  --color-ring: var(--primary);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
 /* ==========================================================================
    DCMS Central Stylesheet Manifest
    Imports modular domain and feature stylesheets in strict cascade order.

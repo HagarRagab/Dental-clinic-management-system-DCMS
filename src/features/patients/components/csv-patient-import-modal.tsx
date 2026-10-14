@@ -248,8 +248,7 @@ export function CsvPatientImportModal({
                                         />
                                         <button
                                             type="button"
-                                            className="button button--primary button--compact"
-                                            style={{ marginTop: 8 }}
+                                            className="button button--primary button--compact mt-2"
                                             onClick={handleManualParse}
                                             disabled={!csvContent.trim()}
                                         >
@@ -291,8 +290,7 @@ export function CsvPatientImportModal({
                                     </div>
                                     <button
                                         type="button"
-                                        className="text-button text-button--compact"
-                                        style={{ marginLeft: "auto" }}
+                                        className="text-button text-button--compact ml-auto"
                                         onClick={() => {
                                             setValidationResult(null);
                                             setCsvContent("");
@@ -335,7 +333,7 @@ export function CsvPatientImportModal({
                                     >
                                         <thead>
                                             <tr>
-                                                <th style={{ width: "40px" }}>
+                                                <th className="w-10">
                                                     #
                                                 </th>
                                                 <th>Name</th>

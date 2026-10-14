@@ -114,10 +114,7 @@ export function PatientsListScreen({ initialRole }: PatientsListScreenProps) {
           </p>
         </div>
         {canManage && (
-          <div
-            className="page-heading__action"
-            style={{ display: "flex", gap: "8px" }}
-          >
+          <div className="page-heading__action flex gap-2">
             {role === "admin" && (
               <button
                 type="button"

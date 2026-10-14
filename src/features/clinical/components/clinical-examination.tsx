@@ -41,7 +41,7 @@ function ClinicalExamination({
         )}
       </div>
 
-      <div className="clinical-form-group" style={{ marginTop: 14 }}>
+      <div className="clinical-form-group mt-3.5">
         <label htmlFor="objective-findings">
           <strong>Objective (Clinical &amp; radiographic findings)</strong>
         </label>
